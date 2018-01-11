@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainTable" rowHeight="165" id="O3l-ho-dRS" customClass="TestTableViewCell" customModule="Quizware" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainTable" rowHeight="165" id="O3l-ho-dRS" customClass="QuizTableViewCell" customModule="Quizware" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="165"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O3l-ho-dRS" id="6To-fK-c0L">
@@ -123,7 +123,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="rootStackView" destination="Tuu-Ts-33X" id="c57-P5-C7h"/>
+                                    <outlet property="detailStackView" destination="Rmn-JJ-F5S" id="qFR-0W-jNg"/>
+                                    <outlet property="lblNumberOfQuestions" destination="13V-fv-mJW" id="JB1-wb-Gfu"/>
+                                    <outlet property="lblSuccessRate" destination="toB-3L-e1O" id="Tmh-8i-amD"/>
+                                    <outlet property="lblTestName" destination="5Cf-xx-8Km" id="zMy-ye-f8c"/>
+                                    <outlet property="rootStackView" destination="Tuu-Ts-33X" id="KTW-UE-n7Q"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

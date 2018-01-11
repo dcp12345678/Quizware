@@ -9,8 +9,17 @@
 import UIKit
 import CoreData
 
-class TestTableViewCell : UITableViewCell {
+enum CellExpandedState {
+    case Expanded
+    case Collapsed
+}
+
+class QuizTableViewCell : UITableViewCell {
     @IBOutlet weak var rootStackView: UIStackView!
+    @IBOutlet weak var lblTestName: UILabel!
+    @IBOutlet weak var lblNumberOfQuestions: UILabel!
+    @IBOutlet weak var lblSuccessRate: UILabel!
+    @IBOutlet weak var detailStackView: UIStackView!
 }
 
 class MainViewController: UITableViewController {
