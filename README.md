@@ -16,7 +16,7 @@
   * the number of correct and incorrect questions
   * the overall success percentage (num correct / total questions across all quizes)
   * a button the user can press to view the detailed quiz history (this will be another screen)
-  * a buton the user can press to take the quiz
+  * a button the user can press to take the quiz
 
 ## Take Quiz Screen
 * When the user presses the button to take the quiz, this screen will be shown.

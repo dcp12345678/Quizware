@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainTable" rowHeight="165" id="O3l-ho-dRS" customClass="QuizTableViewCell" customModule="Quizware" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainView" rowHeight="165" id="O3l-ho-dRS" customClass="QuizTableViewCell" customModule="Quizware" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="165"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O3l-ho-dRS" id="6To-fK-c0L">
@@ -48,7 +48,7 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Rmn-JJ-F5S">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Rmn-JJ-F5S">
                                                     <rect key="frame" x="0.0" y="33" width="345" height="102"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="wyv-NC-oPA">
@@ -72,16 +72,19 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="bAe-W3-vzt">
-                                                            <rect key="frame" x="0.0" y="29" width="345" height="39"/>
+                                                            <rect key="frame" x="0.0" y="31" width="345" height="25"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Success Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG1-LI-KMy">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="39"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="25"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="25" id="jEV-BP-Ktc"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toB-3L-e1O">
-                                                                    <rect key="frame" x="107.5" y="0.0" width="237.5" height="39"/>
+                                                                    <rect key="frame" x="107.5" y="0.0" width="237.5" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -89,17 +92,14 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IBE-tH-Iw0">
-                                                            <rect key="frame" x="0.0" y="72" width="345" height="30"/>
+                                                            <rect key="frame" x="0.0" y="62" width="345" height="40"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wq-wB-qFK">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="170" height="30"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="30" id="LnD-Ty-qvI"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="170" height="40"/>
                                                                     <state key="normal" title="View History"/>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rm-Hu-Vcn">
-                                                                    <rect key="frame" x="175" y="0.0" width="170" height="30"/>
+                                                                    <rect key="frame" x="175" y="0.0" width="170" height="40"/>
                                                                     <state key="normal" title="Take Test!"/>
                                                                 </button>
                                                             </subviews>
@@ -123,6 +123,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="btnTakeTest" destination="1rm-Hu-Vcn" id="Dwu-9b-jw1"/>
+                                    <outlet property="btnViewHistory" destination="9wq-wB-qFK" id="IgR-Hm-DKr"/>
                                     <outlet property="detailStackView" destination="Rmn-JJ-F5S" id="qFR-0W-jNg"/>
                                     <outlet property="lblNumberOfQuestions" destination="13V-fv-mJW" id="JB1-wb-Gfu"/>
                                     <outlet property="lblSuccessRate" destination="toB-3L-e1O" id="Tmh-8i-amD"/>
@@ -137,6 +139,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="el2-Ay-eGT"/>
+                    <connections>
+                        <outlet property="quizesTableView" destination="VvG-qj-Fng" id="2pp-fa-Ezl"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10t-rx-abK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
