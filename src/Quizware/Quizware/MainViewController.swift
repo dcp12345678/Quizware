@@ -38,10 +38,10 @@ class MainViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        deleteDummyData()
-        loadDummyData(quizNumber: 1)
-        loadDummyData(quizNumber: 2)
-        loadDummyData(quizNumber: 3)
+        Helper.deleteQuizData()
+        Helper.loadQuizData(quizNumber: 1)
+        Helper.loadQuizData(quizNumber: 2)
+        Helper.loadQuizData(quizNumber: 3)
         
         quizesTableView.separatorColor = UIColor.white
         quizesTableView.separatorInset = .zero
@@ -59,7 +59,7 @@ class MainViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // need to fetch quizes
-        quizes = fetchDummyData()
+        quizes = Helper.fetchQuizData()
         
         self.quizesTableView.reloadData()
         
@@ -161,62 +161,5 @@ class MainViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func loadDummyData(quizNumber: Int) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let entity = NSEntityDescription.entity(forEntityName: "Quiz",
-                                                in: managedContext)!
-        let quiz = NSManagedObject(entity: entity,
-                                   insertInto: managedContext)
-        
-        quiz.setValue("sample test " + String(quizNumber), forKeyPath: "name")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func fetchDummyData() -> [NSManagedObject]? {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return nil
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Quiz")
-        
-        do {
-            let quizes = try managedContext.fetch(fetchRequest)
-            print("\(quizes)")
-            return quizes
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-            return nil
-        }
-    }
-    
-    func deleteDummyData() {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Quiz")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        do {
-            try managedContext.execute(deleteRequest)
-        } catch let error as NSError {
-            print("Could not delete. \(error), \(error.userInfo)")
-        }
-    }
 }
 
