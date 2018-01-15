@@ -3,14 +3,24 @@
     <entity name="Quiz" representedClassName="Quiz" syncable="YES" codeGenerationType="class">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="quizHistory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizHistory" inverseName="quiz" inverseEntity="QuizHistory" syncable="YES"/>
         <relationship name="quizQuestion" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizQuestion" inverseName="quiz" inverseEntity="QuizQuestion" syncable="YES"/>
+    </entity>
+    <entity name="QuizHistory" representedClassName="QuizHistory" syncable="YES" codeGenerationType="class">
+        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="quizHistory" inverseEntity="Quiz" syncable="YES"/>
     </entity>
     <entity name="QuizQuestion" representedClassName="QuizQuestion" syncable="YES" codeGenerationType="class">
         <attribute name="questionText" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="quizQuestion" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="quizQuestionHistory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestionHistory" inverseName="quizQuestion" inverseEntity="QuizQuestionHistory" syncable="YES"/>
+    </entity>
+    <entity name="QuizQuestionHistory" representedClassName="QuizQuestionHistory" syncable="YES" codeGenerationType="class">
+        <relationship name="quizQuestion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="quizQuestionHistory" inverseEntity="QuizQuestion" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Quiz" positionX="-54" positionY="24" width="128" height="90"/>
-        <element name="QuizQuestion" positionX="-54" positionY="153" width="128" height="75"/>
+        <element name="Quiz" positionX="-54" positionY="24" width="128" height="105"/>
+        <element name="QuizQuestion" positionX="-54" positionY="153" width="128" height="90"/>
+        <element name="QuizHistory" positionX="-45" positionY="108" width="128" height="60"/>
+        <element name="QuizQuestionHistory" positionX="-36" positionY="117" width="128" height="60"/>
     </elements>
 </model>

@@ -72,6 +72,9 @@ class MainViewController: UITableViewController {
             as! QuizTableViewCell
         let rowData = quizes?[indexPath.row]
         cell.lblTestName.text = rowData?.value(forKey: "name") as? String
+        if let quizQuestions = rowData?.mutableSetValue(forKey: "quizQuestion") {
+            cell.lblNumberOfQuestions.text = String(quizQuestions.count)
+        }
         cell.contentView.tag = indexPath.row
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewTapped(_:)))
