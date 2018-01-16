@@ -84,5 +84,14 @@ struct Helper {
             return nil
         }
     }
-
+    
+    static func showMessage(parentController: UIViewController, message: String, title: String = "Info") {
+        let controller = UIAlertController(
+            title: title,
+            message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK",
+                                     style: .default, handler: nil)
+        controller.addAction(okAction)
+        parentController.present(controller, animated: true, completion: nil)
+    }
 }

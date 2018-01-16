@@ -14,6 +14,18 @@
 		8AA1252B2007B90E006D92A1 /* Quizware.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AA125292007B90E006D92A1 /* Quizware.xcdatamodeld */; };
 		8AA1252D2007B90E006D92A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AA1252C2007B90E006D92A1 /* Assets.xcassets */; };
 		8AA125302007B90E006D92A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AA1252E2007B90E006D92A1 /* LaunchScreen.storyboard */; };
+		8AD77C7F200D129600CAB1C9 /* EditQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */; };
+		8AE34917200E369900DF9A64 /* FontAwesomeImageRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490B200E369700DF9A64 /* FontAwesomeImageRepresentable.swift */; };
+		8AE34918200E369900DF9A64 /* FontAwesomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490C200E369700DF9A64 /* FontAwesomeView.swift */; };
+		8AE34919200E369900DF9A64 /* FontAwesomeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490D200E369700DF9A64 /* FontAwesomeImageView.swift */; };
+		8AE3491A200E369900DF9A64 /* FontAwesomeStateRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490E200E369700DF9A64 /* FontAwesomeStateRequirement.swift */; };
+		8AE3491B200E369900DF9A64 /* FontAwesomeTextRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490F200E369700DF9A64 /* FontAwesomeTextRepresentable.swift */; };
+		8AE3491C200E369900DF9A64 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8AE34910200E369700DF9A64 /* FontAwesome.otf */; };
+		8AE3491D200E369900DF9A64 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34911200E369800DF9A64 /* Enum.swift */; };
+		8AE3491E200E369900DF9A64 /* FontAwesomeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34912200E369800DF9A64 /* FontAwesomeSegmentedControl.swift */; };
+		8AE3491F200E369900DF9A64 /* FontAwesomeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34914200E369900DF9A64 /* FontAwesomeTabBarItem.swift */; };
+		8AE34920200E369900DF9A64 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34915200E369900DF9A64 /* FontAwesome.swift */; };
+		8AE34921200E369900DF9A64 /* FontAwesomeBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34916200E369900DF9A64 /* FontAwesomeBarButtonItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +38,19 @@
 		8AA1252C2007B90E006D92A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AA1252F2007B90E006D92A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AA125312007B90E006D92A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditQuizViewController.swift; sourceTree = "<group>"; };
+		8AE3490B200E369700DF9A64 /* FontAwesomeImageRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeImageRepresentable.swift; sourceTree = "<group>"; };
+		8AE3490C200E369700DF9A64 /* FontAwesomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeView.swift; sourceTree = "<group>"; };
+		8AE3490D200E369700DF9A64 /* FontAwesomeImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeImageView.swift; sourceTree = "<group>"; };
+		8AE3490E200E369700DF9A64 /* FontAwesomeStateRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeStateRequirement.swift; sourceTree = "<group>"; };
+		8AE3490F200E369700DF9A64 /* FontAwesomeTextRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeTextRepresentable.swift; sourceTree = "<group>"; };
+		8AE34910200E369700DF9A64 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
+		8AE34911200E369800DF9A64 /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		8AE34912200E369800DF9A64 /* FontAwesomeSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeSegmentedControl.swift; sourceTree = "<group>"; };
+		8AE34913200E369800DF9A64 /* FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontAwesome.h; sourceTree = "<group>"; };
+		8AE34914200E369900DF9A64 /* FontAwesomeTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeTabBarItem.swift; sourceTree = "<group>"; };
+		8AE34915200E369900DF9A64 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
+		8AE34916200E369900DF9A64 /* FontAwesomeBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeBarButtonItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +83,7 @@
 		8AA125212007B90E006D92A1 /* Quizware */ = {
 			isa = PBXGroup;
 			children = (
+				8AE3490A200E366100DF9A64 /* FontAwesome */,
 				8AA125222007B90E006D92A1 /* AppDelegate.swift */,
 				8AA125242007B90E006D92A1 /* MainViewController.swift */,
 				8AA125262007B90E006D92A1 /* Main.storyboard */,
@@ -66,8 +92,28 @@
 				8AA125312007B90E006D92A1 /* Info.plist */,
 				8AA125292007B90E006D92A1 /* Quizware.xcdatamodeld */,
 				8A243CE72007EF7900790308 /* Helper.swift */,
+				8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */,
 			);
 			path = Quizware;
+			sourceTree = "<group>";
+		};
+		8AE3490A200E366100DF9A64 /* FontAwesome */ = {
+			isa = PBXGroup;
+			children = (
+				8AE34911200E369800DF9A64 /* Enum.swift */,
+				8AE34913200E369800DF9A64 /* FontAwesome.h */,
+				8AE34910200E369700DF9A64 /* FontAwesome.otf */,
+				8AE34915200E369900DF9A64 /* FontAwesome.swift */,
+				8AE34916200E369900DF9A64 /* FontAwesomeBarButtonItem.swift */,
+				8AE3490B200E369700DF9A64 /* FontAwesomeImageRepresentable.swift */,
+				8AE3490D200E369700DF9A64 /* FontAwesomeImageView.swift */,
+				8AE34912200E369800DF9A64 /* FontAwesomeSegmentedControl.swift */,
+				8AE3490E200E369700DF9A64 /* FontAwesomeStateRequirement.swift */,
+				8AE34914200E369900DF9A64 /* FontAwesomeTabBarItem.swift */,
+				8AE3490F200E369700DF9A64 /* FontAwesomeTextRepresentable.swift */,
+				8AE3490C200E369700DF9A64 /* FontAwesomeView.swift */,
+			);
+			path = FontAwesome;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,6 +177,7 @@
 			files = (
 				8AA125302007B90E006D92A1 /* LaunchScreen.storyboard in Resources */,
 				8AA1252D2007B90E006D92A1 /* Assets.xcassets in Resources */,
+				8AE3491C200E369900DF9A64 /* FontAwesome.otf in Resources */,
 				8AA125282007B90E006D92A1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,9 +190,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AA125252007B90E006D92A1 /* MainViewController.swift in Sources */,
+				8AE34917200E369900DF9A64 /* FontAwesomeImageRepresentable.swift in Sources */,
 				8AA125232007B90E006D92A1 /* AppDelegate.swift in Sources */,
+				8AE34919200E369900DF9A64 /* FontAwesomeImageView.swift in Sources */,
+				8AE3491D200E369900DF9A64 /* Enum.swift in Sources */,
+				8AE3491B200E369900DF9A64 /* FontAwesomeTextRepresentable.swift in Sources */,
 				8AA1252B2007B90E006D92A1 /* Quizware.xcdatamodeld in Sources */,
+				8AE34921200E369900DF9A64 /* FontAwesomeBarButtonItem.swift in Sources */,
+				8AE3491F200E369900DF9A64 /* FontAwesomeTabBarItem.swift in Sources */,
+				8AE3491A200E369900DF9A64 /* FontAwesomeStateRequirement.swift in Sources */,
+				8AE34918200E369900DF9A64 /* FontAwesomeView.swift in Sources */,
 				8A243CE82007EF7900790308 /* Helper.swift in Sources */,
+				8AD77C7F200D129600CAB1C9 /* EditQuizViewController.swift in Sources */,
+				8AE34920200E369900DF9A64 /* FontAwesome.swift in Sources */,
+				8AE3491E200E369900DF9A64 /* FontAwesomeSegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

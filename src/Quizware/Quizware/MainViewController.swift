@@ -24,6 +24,8 @@ class QuizTableViewCell : UITableViewCell {
     
     @IBOutlet weak var btnViewHistory: UIButton!    
     @IBOutlet weak var btnTakeTest: UIButton!
+    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var btnDelete: UIButton!
 }
 
 class MainViewController: UITableViewController {
@@ -52,9 +54,16 @@ class MainViewController: UITableViewController {
         
         quizesTableView.rowHeight = UITableViewAutomaticDimension
         quizesTableView.estimatedRowHeight = 120
-
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                                                                 action: #selector(addOnPress))
     }
     
+    @objc func addOnPress() {
+        //Helper.showMessage(parentController: self, message: "add button tapped!")
+        performSegue(withIdentifier: "editQuiz", sender: self)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -93,7 +102,33 @@ class MainViewController: UITableViewController {
             cell.detailStackView.isHidden = true
         }
         
+        // ----------------------
+        // setup button icons
+        // ----------------------
+
+        cell.btnTakeTest.setTitle(String.fontAwesomeIcon(name: .play), for: .normal)
+        cell.btnTakeTest.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+        
+        cell.btnViewHistory.setTitle(String.fontAwesomeIcon(name: .barChart), for: .normal)
+        cell.btnViewHistory.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+
+        cell.btnEdit.setTitle(String.fontAwesomeIcon(name: .edit), for: .normal)
+        cell.btnEdit.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+
+        cell.btnDelete.setTitle(String.fontAwesomeIcon(name: .trash), for: .normal)
+        cell.btnDelete.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let row = quizes![indexPath.row]
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete logic goes here
+        }
+        
+        return [delete]
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
