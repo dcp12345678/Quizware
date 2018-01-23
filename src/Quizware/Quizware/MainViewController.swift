@@ -180,6 +180,8 @@ class MainViewController: UITableViewController {
                 // are associated with
                 cell.btnTakeTest.tag = indexPath.row
                 cell.btnViewHistory.tag = indexPath.row
+                cell.btnDelete.tag = indexPath.row
+                cell.btnEdit.tag = indexPath.row
                 
                 UIView.animate(withDuration: 0.2) {
                     cell.detailStackView.isHidden = false;
