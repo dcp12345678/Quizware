@@ -104,7 +104,10 @@ class EditAnswersViewController: UIViewController {
     var questionText: String?
     @IBOutlet weak var txtQuestion: UITextView!
     @IBOutlet weak var answerTableView: AnswerTableView!
-    @IBOutlet weak var txtAnswer: UITextView!    
+    @IBOutlet weak var txtAnswer: UITextView!
+    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var btnDone: UIButton!
+    @IBOutlet weak var btnDelete: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +161,10 @@ class EditAnswersViewController: UIViewController {
     
     @IBAction func btnEditWasTapped(_ sender: Any) {
         isEditing = true
+        self.btnEdit.isHidden = true
+        self.btnDelete.isHidden = false
+        self.btnDelete.isEnabled = false
+        self.btnDone.isHidden = false
         answerTableView.reloadData()
     }
     
