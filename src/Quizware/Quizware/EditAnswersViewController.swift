@@ -8,11 +8,16 @@
 
 import UIKit
 
+protocol AnswerTableViewCellDelegate {
+    func setDeleteButton()
+}
+
 class AnswerTableViewCell: UITableViewCell {
     @IBOutlet weak var txtAnswer: UITextView!
     @IBOutlet weak var btnCorrectOrIncorrectAnswer: UIButton!
     @IBOutlet weak var btnSelectAnswer: UIButton!
     var answers: [NSMutableDictionary]?
+    var delegate: AnswerTableViewCellDelegate?
     
     @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
         if let btn = sender as? UIButton {
@@ -20,23 +25,28 @@ class AnswerTableViewCell: UITableViewCell {
             let answer = answers![btn.tag]
             let isSelected = answer["isSelected"] as! Bool
             
-            // toggle selection state, then set the proper button icon
+            // toggle selection state, then set the proper button icon to show whether the
+            // answer is selected or unselected (open circle means not selected, checked
+            // circle means selected)
             answer["isSelected"] = !isSelected
             if (answer["isSelected"] as! Bool) {
-                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circle), for: .normal)
+                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
             } else {
                 btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
             }
-            //btnSelectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
+            
+            // either enable or disable the delete button depending on whether any answers
+            // are selected
+            delegate?.setDeleteButton()
         }
     }
     
 }
 
-class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
+class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, AnswerTableViewCellDelegate {
 
     let lineItemCellIdentifier = "AnswerLineItem"
-    var parentViewController: UIViewController?
+    var parentViewController: EditAnswersViewController?
     var answers = [NSMutableDictionary]()
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -68,7 +78,7 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         if parentViewController!.isEditing {
             cell.btnSelectAnswer.isHidden = false
             if (answer["isSelected"] as! Bool) == true {
-                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circle), for: .normal)
+                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
             } else {
                 cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
             }
@@ -82,8 +92,22 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         // row they've tapped
         cell.btnSelectAnswer.tag = indexPath.row
         cell.answers = answers
+        cell.delegate = self
 
         return cell
+    }
+    
+    func setDeleteButton() {
+        // if at least one answer is selected then enable the delete button,
+        // otherwise disable it
+        var isAtLeastOneSelected = false
+        for answer in answers {
+            if (answer["isSelected"] as! Bool) {
+                isAtLeastOneSelected = true
+                break
+            }
+        }
+        parentViewController?.btnDelete.isEnabled = isAtLeastOneSelected
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -99,8 +123,8 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     
 }
 
-class EditAnswersViewController: UIViewController {
-
+class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
+    
     var questionText: String?
     @IBOutlet weak var txtQuestion: UITextView!
     @IBOutlet weak var answerTableView: AnswerTableView!
@@ -108,7 +132,21 @@ class EditAnswersViewController: UIViewController {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
-    
+
+    func setDeleteButton() {
+        // if at least one answer was selected then enable the delete button, otherwise
+        // disable it
+        var atLeastOneSelected = false
+        for answer in answerTableView.answers {
+            if (answer["isSelected"] as! Bool) {
+                atLeastOneSelected = true
+                break
+            }
+        }
+        btnDelete.isEnabled = atLeastOneSelected
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -157,6 +195,9 @@ class EditAnswersViewController: UIViewController {
         answer["isSelected"] = false
         answerTableView.answers.append(answer)
         answerTableView.reloadData()
+        
+        // clear the answer text view so they can enter another answer
+        txtAnswer.text = ""
     }
     
     @IBAction func btnEditWasTapped(_ sender: Any) {
@@ -165,6 +206,17 @@ class EditAnswersViewController: UIViewController {
         self.btnDelete.isHidden = false
         self.btnDelete.isEnabled = false
         self.btnDone.isHidden = false
+        answerTableView.reloadData()
+    }
+    
+    @IBAction func btnDoneWasTapped(_ sender: Any) {
+        isEditing = false
+        self.btnEdit.isHidden = false
+        self.btnDelete.isHidden = true
+        self.btnDone.isHidden = true
+        for answer in answerTableView.answers {
+            answer["isSelected"] = false
+        }
         answerTableView.reloadData()
     }
     
