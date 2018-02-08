@@ -188,6 +188,20 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
         addAnswer(isCorrect: false)
     }
     
+    @IBAction func btnDeleteWasTapped(_ sender: Any) {
+        // -- delete any selected anwswers --
+        // we will make a new answers array and just add the non-selected
+        // answers to it
+        var newAnswers = [NSMutableDictionary]()
+        for answer in answerTableView.answers {
+            if !(answer["isSelected"] as! Bool) {
+                newAnswers.append(answer)
+            }
+        }
+        answerTableView.answers = newAnswers
+        answerTableView.reloadData()
+    }
+    
     private func addAnswer(isCorrect: Bool) {
         let answer = NSMutableDictionary()
         answer["text"] = txtAnswer.text

@@ -395,6 +395,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="btnDeleteWasTapped:" destination="Jk1-vI-nMF" eventType="touchUpInside" id="qBf-d5-gI1"/>
                                             <action selector="btnEditWasTapped:" destination="Jk1-vI-nMF" eventType="touchUpInside" id="JV9-r0-ueo"/>
                                         </connections>
                                     </button>
