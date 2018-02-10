@@ -212,6 +212,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
         
         // clear the answer text view so they can enter another answer
         txtAnswer.text = ""
+        txtAnswer.endEditing(true)
     }
     
     @IBAction func btnEditWasTapped(_ sender: Any) {
