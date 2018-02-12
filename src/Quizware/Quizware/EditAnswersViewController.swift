@@ -12,13 +12,24 @@ protocol AnswerTableViewCellDelegate {
     func setDeleteButton()
 }
 
-class AnswerTableViewCell: UITableViewCell {
+class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var txtAnswer: UITextView!
     @IBOutlet weak var btnCorrectOrIncorrectAnswer: UIButton!
     @IBOutlet weak var btnSelectAnswer: UIButton!
     var answers: [NSMutableDictionary]?
     var delegate: AnswerTableViewCellDelegate?
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        txtAnswer.delegate = self
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        // update the answer's text in the answers array
+        let index = textView.tag
+        answers![index]["text"] = textView.text
+    }
+
     @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
         if let btn = sender as? UIButton {
             NSLog("row number of selected row is \(btn.tag)")
@@ -88,12 +99,19 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
             cell.btnSelectAnswer.isHidden = true
         }
         
-        // store the row number in the button so when user taps the button, we know which
+        // store the row number in the button's tag so when user taps the button, we know which
         // row they've tapped
         cell.btnSelectAnswer.tag = indexPath.row
         cell.answers = answers
         cell.delegate = self
 
+        // if the user is editing the answer table, make the answer text view for this cell editable
+        cell.txtAnswer.isEditable = parentViewController!.isEditing
+        
+        // store the row number in the txtAnswer's tag so when user finishes editing an answer, we know
+        // which row in the answers array it corresponds to
+        cell.txtAnswer.tag = indexPath.row
+        
         return cell
     }
     
@@ -123,7 +141,7 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
 }
 
-class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
+class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, UITextViewDelegate {
     
     var questionText: String?
     @IBOutlet weak var txtQuestion: UITextView!
@@ -133,6 +151,16 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
 
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        // don't show the question in landscape mode since it takes us to much room
+        if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
+            txtQuestion.isHidden = true
+        }
+        else {
+            txtQuestion.isHidden = false
+        }
+    }
+    
     func setDeleteButton() {
         // if at least one answer was selected then enable the delete button, otherwise
         // disable it
@@ -147,6 +175,20 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
 
     }
 
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Enter answer here"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -154,7 +196,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
         if let questionText = questionText {
             txtQuestion.text = questionText
         }
-        
+     
         answerTableView.delegate = answerTableView
         answerTableView.dataSource = answerTableView
         answerTableView.parentViewController = self
@@ -168,8 +210,16 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
         }
         
         isEditing = false
+        btnDelete.isHidden = true
+        btnDone.isHidden = true
+        
+        // set the delegate for txtAnswer so we can hide/show the placeholder text
+        txtAnswer.delegate = self
+        
+        txtAnswer.text = "Enter answer here"
+        txtAnswer.textColor = UIColor.lightGray
     }
-
+    
     @objc func doneOnPress() {
         //Helper.showMessage(parentController: self, message: "Cancel button tapped!")
         self.navigationController?.popViewController(animated: true)
@@ -221,6 +271,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate {
         self.btnDelete.isHidden = false
         self.btnDelete.isEnabled = false
         self.btnDone.isHidden = false
+        
         answerTableView.reloadData()
     }
     
