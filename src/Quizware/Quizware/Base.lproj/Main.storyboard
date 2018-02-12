@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -271,7 +270,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="aet-h6-ahz">
-                                <rect key="frame" x="8" y="183" width="304" height="29"/>
+                                <rect key="frame" x="8" y="177" width="304" height="29"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjr-vt-kK7">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="29"/>
@@ -326,7 +325,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aEv-Hr-ixs" customClass="AnswerTableView" customModule="Quizware" customModuleProvider="target">
-                                <rect key="frame" x="8" y="250" width="304" height="310"/>
+                                <rect key="frame" x="8" y="244" width="304" height="316"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AnswerLineItem" rowHeight="40" id="wt7-Oz-cGD" customClass="AnswerTableViewCell" customModule="Quizware" customModuleProvider="target">
@@ -337,45 +336,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="X72-Fe-VZR">
-                                                    <rect key="frame" x="6" y="6" width="292" height="28"/>
+                                                    <rect key="frame" x="6" y="3" width="292" height="33.5"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEp-Pf-NEY">
-                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="28"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="30" id="QC2-dD-2fH"/>
-                                                            </constraints>
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="33.5"/>
                                                             <connections>
                                                                 <action selector="btnSelectAnswerWasTapped:" destination="wt7-Oz-cGD" eventType="touchUpInside" id="hDf-Tf-izq"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlX-Nw-obc">
-                                                            <rect key="frame" x="34" y="0.0" width="30" height="28"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="30" id="b1d-FP-u77"/>
-                                                            </constraints>
+                                                            <rect key="frame" x="34" y="0.0" width="30" height="33.5"/>
                                                         </button>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhE-I5-tX1">
-                                                            <rect key="frame" x="68" y="0.0" width="224" height="28"/>
+                                                            <rect key="frame" x="68" y="0.0" width="224" height="33.5"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
                                                     </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="rEp-Pf-NEY" firstAttribute="firstBaseline" secondItem="hlX-Nw-obc" secondAttribute="firstBaseline" id="1fX-WQ-xMv"/>
-                                                        <constraint firstItem="hlX-Nw-obc" firstAttribute="baseline" secondItem="rEp-Pf-NEY" secondAttribute="baseline" id="qGn-yF-1AX"/>
-                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="X72-Fe-VZR" firstAttribute="top" secondItem="Aqg-ha-CMx" secondAttribute="top" constant="6" id="Grc-Yy-DSx"/>
                                                 <constraint firstAttribute="trailing" secondItem="X72-Fe-VZR" secondAttribute="trailing" constant="6" id="Q1z-n7-Zfr"/>
                                                 <constraint firstItem="X72-Fe-VZR" firstAttribute="leading" secondItem="Aqg-ha-CMx" secondAttribute="leading" constant="6" id="Tza-hi-LR2"/>
-                                                <constraint firstAttribute="trailing" secondItem="X72-Fe-VZR" secondAttribute="trailing" constant="6" id="Upe-Qq-pns"/>
-                                                <constraint firstItem="X72-Fe-VZR" firstAttribute="leading" secondItem="Aqg-ha-CMx" secondAttribute="leading" constant="6" id="bDo-dO-A9G"/>
-                                                <constraint firstAttribute="bottom" secondItem="X72-Fe-VZR" secondAttribute="bottom" constant="6" id="g2U-ZC-y7t"/>
-                                                <constraint firstAttribute="bottom" secondItem="X72-Fe-VZR" secondAttribute="bottom" constant="6" id="qgs-M9-Grw"/>
-                                                <constraint firstItem="X72-Fe-VZR" firstAttribute="top" secondItem="Aqg-ha-CMx" secondAttribute="top" constant="6" id="uDV-kn-Fzp"/>
+                                                <constraint firstAttribute="bottom" secondItem="X72-Fe-VZR" secondAttribute="bottom" constant="3" id="g2U-ZC-y7t"/>
+                                                <constraint firstItem="X72-Fe-VZR" firstAttribute="top" secondItem="Aqg-ha-CMx" secondAttribute="top" constant="3" id="uDV-kn-Fzp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -387,7 +372,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="D97-NC-x5T">
-                                <rect key="frame" x="195" y="220" width="119" height="25"/>
+                                <rect key="frame" x="195" y="214" width="119" height="25"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ED-uu-nQ5">
                                         <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -431,7 +416,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Answers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSl-U7-Wzr">
-                                <rect key="frame" x="8" y="222" width="184" height="21"/>
+                                <rect key="frame" x="8" y="216" width="184" height="21"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="0Nl-Vy-byg"/>
@@ -447,7 +432,7 @@
                             <constraint firstItem="aEv-Hr-ixs" firstAttribute="top" secondItem="mSl-U7-Wzr" secondAttribute="bottom" constant="7" id="795-2C-xqP"/>
                             <constraint firstItem="3tm-ZO-FyI" firstAttribute="leading" secondItem="aet-h6-ahz" secondAttribute="leading" id="JhY-rl-mz7"/>
                             <constraint firstItem="An0-fZ-A0C" firstAttribute="trailing" secondItem="D97-NC-x5T" secondAttribute="trailing" constant="6" id="Kbe-hb-Lxq"/>
-                            <constraint firstItem="aet-h6-ahz" firstAttribute="top" secondItem="3tm-ZO-FyI" secondAttribute="bottom" constant="11" id="LZe-Bd-phg"/>
+                            <constraint firstItem="aet-h6-ahz" firstAttribute="top" secondItem="3tm-ZO-FyI" secondAttribute="bottom" constant="5" id="LZe-Bd-phg"/>
                             <constraint firstItem="An0-fZ-A0C" firstAttribute="bottom" secondItem="aEv-Hr-ixs" secondAttribute="bottom" constant="8" id="Mgs-GS-zoh"/>
                             <constraint firstItem="D97-NC-x5T" firstAttribute="top" secondItem="aet-h6-ahz" secondAttribute="bottom" constant="8" id="YR1-yr-1gh"/>
                             <constraint firstItem="An0-fZ-A0C" firstAttribute="trailing" secondItem="aet-h6-ahz" secondAttribute="trailing" constant="8" id="fKN-Yg-P6I"/>
@@ -474,6 +459,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Fr-ch-caA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2407.5" y="-88.732394366197184"/>
+        </scene>
+        <!--View Questions View Controller-->
+        <scene sceneID="3Xt-IT-HB7">
+            <objects>
+                <viewController id="CUx-An-Abf" customClass="ViewQuestionsViewController" customModule="Quizware" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J5W-fg-dse">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="vfQ-V7-74E"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q96-se-t9q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3349" y="-76"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VCg-YK-c3O">

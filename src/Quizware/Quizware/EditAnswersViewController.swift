@@ -152,7 +152,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
     @IBOutlet weak var btnDelete: UIButton!
 
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        // don't show the question in landscape mode since it takes us to much room
+        // don't show the question in landscape mode since it takes up too much room
         if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
             txtQuestion.isHidden = true
         }
@@ -218,6 +218,15 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         
         txtAnswer.text = "Enter answer here"
         txtAnswer.textColor = UIColor.lightGray
+        
+        // don't show the question in landscape mode since it takes up too much room
+        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+            txtQuestion.isHidden = true
+        }
+        else {
+            txtQuestion.isHidden = false
+        }
+
     }
     
     @objc func doneOnPress() {
