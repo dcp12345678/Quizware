@@ -202,8 +202,10 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         answerTableView.parentViewController = self
         
         // create button for cancelling the edit
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
-                                                                action: #selector(doneOnPress))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self,
+                                                                action: #selector(cancelOnPress))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self,
+                                                                 action: #selector(saveOnPress))
         
         for answer in answerTableView.answers {
             answer["isSelected"] = false
@@ -229,9 +231,13 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
 
     }
     
-    @objc func doneOnPress() {
+    @objc func cancelOnPress() {
         //Helper.showMessage(parentController: self, message: "Cancel button tapped!")
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func saveOnPress() {
+        performSegue(withIdentifier: "viewQuestions", sender: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -295,14 +301,17 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         answerTableView.reloadData()
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "viewQuestions" {
+            let quizQuestions = Helper.getQuizQuestions(quizId: Helper.dummyQuizId!)
+            (segue.destination as! ViewQuestionsViewController).questions = quizQuestions
+        }
     }
-    */
 
 }

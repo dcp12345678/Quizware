@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 import CoreData
 
+enum CellExpandedState {
+    case Expanded
+    case Collapsed
+}
+
 public extension UIView {
     public func pin(to view: UIView) {
         NSLayoutConstraint.activate([
@@ -22,6 +27,8 @@ public extension UIView {
 }
 
 struct Helper {
+    static var dummyQuizId: NSManagedObjectID?
+    
     static func deleteQuizData() {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -29,6 +36,7 @@ struct Helper {
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Quiz")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
@@ -50,14 +58,23 @@ struct Helper {
         let quiz = Quiz(context: managedContext)
         quiz.name = "sample quiz " + String(quizNumber)
         
-        for _ in 0..<5 {
+        for i in 0..<5 {
             let quizQuestion = QuizQuestion(context: managedContext)
-            quizQuestion.questionText = "This is a sample question for the quiz"
+            quizQuestion.questionText = "This is sample question \(i) for the quiz"
+            quizQuestion.createDate = Date()
             quiz.addToQuizQuestion(quizQuestion)
+            dummyQuizId = quiz.objectID
+
+            for i in 0..<4 {
+                let quizAnswer = QuizAnswer(context: managedContext)
+                quizAnswer.answerText = "Answer " + String(i)
+                quizQuestion.addToQuizAnswer(quizAnswer)
+            }
         }
         
         do {
             try managedContext.save()
+            dummyQuizId = quiz.objectID
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
@@ -83,6 +100,28 @@ struct Helper {
             print("Could not fetch. \(error), \(error.userInfo)")
             return nil
         }
+    }
+    
+    static func getQuizQuestions(quizId: NSManagedObjectID) -> NSMutableSet? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let quiz = managedContext.object(with: quizId)
+        let quizQuestions = quiz.mutableSetValue(forKey: "quizQuestion")
+        return quizQuestions
+        
+//        let quiz = Quiz()
+//        quiz.name = "A Test Quiz"
+//        var quizQuestion = QuizQuestion()
+//        quizQuestion.questionText = "this is the first question"
+//        quiz.addToQuizQuestion(quizQuestion)
+//
+//        var quizAnswer = QuizAnswer()
+//        quizAnswer.answerText = "answer #1"
+//        quizQuestion.addToQuizAnswer(quizAnswer)
     }
     
     static func showMessage(parentController: UIViewController, message: String, title: String = "Info") {

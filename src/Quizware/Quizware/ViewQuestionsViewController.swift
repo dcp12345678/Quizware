@@ -2,14 +2,22 @@
 //  ViewQuestionsViewController.swift
 //  Quizware
 //
-//  Created by TechReviews on 2/11/18.
+//  Created by TechReviews on 2/13/18.
 //  Copyright © 2018 TechReviews. All rights reserved.
 //
 
 import UIKit
 
+class QuestionTableViewCell : UITableViewCell {
+    
+    @IBOutlet weak var txtQuestion: UITextView!
+}
+
 class ViewQuestionsViewController: UITableViewController {
 
+    var questions: NSMutableSet?
+    var sortedQuestions: [Any]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +26,12 @@ class ViewQuestionsViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        sortedQuestions = questions?.allObjects.sorted { (a,b) -> Bool in
+            let a = a as! QuizQuestion
+            let b = b as! QuizQuestion
+            return a.createDate! < b.createDate!
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,24 +42,25 @@ class ViewQuestionsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return questions == nil ? 0 : questions!.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionView", for: indexPath) as! QuestionTableViewCell
 
-        // Configure the cell...
+        //if let rowData = questions?.allObjects[indexPath.row] as? QuizQuestion {
+        if let rowData = sortedQuestions?[indexPath.row] as? QuizQuestion {
+            print("rowData = \(rowData)")
+            cell.txtQuestion.text = rowData.questionText
+            cell.contentView.tag = indexPath.row
+        }
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

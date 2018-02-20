@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A004D4520336BED0078C66D /* ViewQuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A004D4420336BED0078C66D /* ViewQuestionsViewController.swift */; };
 		8A0F3FDD201170DB00C55E80 /* EditQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0F3FDC201170DB00C55E80 /* EditQuestionViewController.swift */; };
 		8A0F3FDF20117A2900C55E80 /* EditAnswersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0F3FDE20117A2900C55E80 /* EditAnswersViewController.swift */; };
 		8A243CE82007EF7900790308 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A243CE72007EF7900790308 /* Helper.swift */; };
@@ -16,7 +17,6 @@
 		8AA1252B2007B90E006D92A1 /* Quizware.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AA125292007B90E006D92A1 /* Quizware.xcdatamodeld */; };
 		8AA1252D2007B90E006D92A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AA1252C2007B90E006D92A1 /* Assets.xcassets */; };
 		8AA125302007B90E006D92A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AA1252E2007B90E006D92A1 /* LaunchScreen.storyboard */; };
-		8AC5786E20312799008D3AE5 /* ViewQuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC5786D20312799008D3AE5 /* ViewQuestionsViewController.swift */; };
 		8AD77C7F200D129600CAB1C9 /* EditQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */; };
 		8AE34917200E369900DF9A64 /* FontAwesomeImageRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490B200E369700DF9A64 /* FontAwesomeImageRepresentable.swift */; };
 		8AE34918200E369900DF9A64 /* FontAwesomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3490C200E369700DF9A64 /* FontAwesomeView.swift */; };
@@ -32,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A004D4420336BED0078C66D /* ViewQuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewQuestionsViewController.swift; sourceTree = "<group>"; };
 		8A0F3FDC201170DB00C55E80 /* EditQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditQuestionViewController.swift; sourceTree = "<group>"; };
 		8A0F3FDE20117A2900C55E80 /* EditAnswersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAnswersViewController.swift; sourceTree = "<group>"; };
 		8A243CE72007EF7900790308 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -43,7 +44,6 @@
 		8AA1252C2007B90E006D92A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AA1252F2007B90E006D92A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AA125312007B90E006D92A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8AC5786D20312799008D3AE5 /* ViewQuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewQuestionsViewController.swift; sourceTree = "<group>"; };
 		8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditQuizViewController.swift; sourceTree = "<group>"; };
 		8AE3490B200E369700DF9A64 /* FontAwesomeImageRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeImageRepresentable.swift; sourceTree = "<group>"; };
 		8AE3490C200E369700DF9A64 /* FontAwesomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeView.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				8AD77C7E200D129600CAB1C9 /* EditQuizViewController.swift */,
 				8A0F3FDC201170DB00C55E80 /* EditQuestionViewController.swift */,
 				8A0F3FDE20117A2900C55E80 /* EditAnswersViewController.swift */,
-				8AC5786D20312799008D3AE5 /* ViewQuestionsViewController.swift */,
+				8A004D4420336BED0078C66D /* ViewQuestionsViewController.swift */,
 			);
 			path = Quizware;
 			sourceTree = "<group>";
@@ -215,7 +215,7 @@
 				8AD77C7F200D129600CAB1C9 /* EditQuizViewController.swift in Sources */,
 				8AE34920200E369900DF9A64 /* FontAwesome.swift in Sources */,
 				8AE3491E200E369900DF9A64 /* FontAwesomeSegmentedControl.swift in Sources */,
-				8AC5786E20312799008D3AE5 /* ViewQuestionsViewController.swift in Sources */,
+				8A004D4520336BED0078C66D /* ViewQuestionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

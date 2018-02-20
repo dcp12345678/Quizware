@@ -9,11 +9,6 @@
 import UIKit
 import CoreData
 
-enum CellExpandedState {
-    case Expanded
-    case Collapsed
-}
-
 class QuizTableViewCell : UITableViewCell {
     @IBOutlet weak var rootStackView: UIStackView!
     @IBOutlet weak var lblTestName: UILabel!
@@ -40,6 +35,7 @@ class MainViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // load some dummy data (for now)
         Helper.deleteQuizData()
         Helper.loadQuizData(quizNumber: 1)
         Helper.loadQuizData(quizNumber: 2)
@@ -132,12 +128,10 @@ class MainViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return quizes == nil ? 0 : quizes!.count
     }
 
