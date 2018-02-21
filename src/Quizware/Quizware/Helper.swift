@@ -133,4 +133,11 @@ struct Helper {
         controller.addAction(okAction)
         parentController.present(controller, animated: true, completion: nil)
     }
+    
+    static func pinBackground(_ view: UIView, to stackView: UIStackView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        stackView.insertSubview(view, at: 0)
+        view.pin(to: stackView)
+    }
+
 }

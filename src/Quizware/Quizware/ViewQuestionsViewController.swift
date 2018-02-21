@@ -10,11 +10,13 @@ import UIKit
 
 class QuestionTableViewCell : UITableViewCell {
     
+    @IBOutlet weak var rootStackView: UIStackView!
     @IBOutlet weak var txtQuestion: UITextView!
 }
 
 class ViewQuestionsViewController: UITableViewController {
 
+    @IBOutlet var questionsTableView: UITableView!
     var questions: NSMutableSet?
     var sortedQuestions: [Any]?
     
@@ -32,6 +34,16 @@ class ViewQuestionsViewController: UITableViewController {
             let b = b as! QuizQuestion
             return a.createDate! < b.createDate!
         }
+        
+        questionsTableView.separatorColor = UIColor.white
+        questionsTableView.separatorInset = .zero
+        questionsTableView.layoutMargins = .zero
+        
+        // this step is done to remove the empty cells from end of table view
+        questionsTableView.tableFooterView = UIView()
+        
+        questionsTableView.rowHeight = UITableViewAutomaticDimension
+        questionsTableView.estimatedRowHeight = 120
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +71,14 @@ class ViewQuestionsViewController: UITableViewController {
             cell.contentView.tag = indexPath.row
         }
 
+        let backgroundView: UIView = {
+            let view = UIView()
+            let color = UIColor(red: 82.0 / 255.0, green: 130.0 / 255.0, blue: 170.0 / 255.0, alpha: 1.0)
+            view.backgroundColor = color
+            view.layer.cornerRadius = 10.0
+            return view
+        }()
+        Helper.pinBackground(backgroundView, to: cell.rootStackView)
         return cell
     }
 

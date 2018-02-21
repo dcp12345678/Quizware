@@ -92,7 +92,7 @@ class MainViewController: UITableViewController {
             view.layer.cornerRadius = 10.0
             return view
         }()
-        pinBackground(backgroundView, to: cell.rootStackView)
+        Helper.pinBackground(backgroundView, to: cell.rootStackView)
         
         if !cell.isExpanded {
             cell.detailStackView.isHidden = true
@@ -133,12 +133,6 @@ class MainViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return quizes == nil ? 0 : quizes!.count
-    }
-
-    private func pinBackground(_ view: UIView, to stackView: UIStackView) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        stackView.insertSubview(view, at: 0)
-        view.pin(to: stackView)
     }
 
     @objc func cellViewTapped(_ sender: UITapGestureRecognizer) {

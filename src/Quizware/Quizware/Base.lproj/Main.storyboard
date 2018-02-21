@@ -469,6 +469,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.5450980392" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuestionView" rowHeight="116" id="YNv-Ox-szm" customClass="QuestionTableViewCell" customModule="Quizware" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="116"/>
@@ -478,22 +479,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ekE-zw-zZA">
-                                            <rect key="frame" x="6" y="6" width="308" height="103.5"/>
+                                            <rect key="frame" x="15" y="15" width="290" height="85.5"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="This is the question text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XKn-Qb-giE">
-                                                    <rect key="frame" x="0.0" y="0.0" width="308" height="53.5"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="53.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="53.5" id="gmj-9j-kSy"/>
                                                     </constraints>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="R0c-M4-kiR">
-                                                    <rect key="frame" x="0.0" y="53.5" width="308" height="50"/>
+                                                    <rect key="frame" x="0.0" y="53.5" width="290" height="32"/>
                                                     <subviews>
                                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXn-0S-fmT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="308" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="32"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </tableView>
                                                     </subviews>
@@ -502,13 +503,14 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="ekE-zw-zZA" secondAttribute="trailing" constant="6" id="HLq-b8-WSe"/>
-                                        <constraint firstItem="ekE-zw-zZA" firstAttribute="top" secondItem="U43-Tf-UdG" secondAttribute="top" constant="6" id="KFk-nT-WuT"/>
-                                        <constraint firstAttribute="bottom" secondItem="ekE-zw-zZA" secondAttribute="bottom" constant="6" id="fph-ZK-m5d"/>
-                                        <constraint firstItem="ekE-zw-zZA" firstAttribute="leading" secondItem="U43-Tf-UdG" secondAttribute="leading" constant="6" id="oh2-tm-3N7"/>
+                                        <constraint firstAttribute="trailing" secondItem="ekE-zw-zZA" secondAttribute="trailing" constant="15" id="HLq-b8-WSe"/>
+                                        <constraint firstAttribute="bottom" secondItem="ekE-zw-zZA" secondAttribute="bottom" constant="15" id="JnC-cf-hUu"/>
+                                        <constraint firstItem="ekE-zw-zZA" firstAttribute="top" secondItem="U43-Tf-UdG" secondAttribute="top" constant="15" id="KFk-nT-WuT"/>
+                                        <constraint firstItem="ekE-zw-zZA" firstAttribute="leading" secondItem="U43-Tf-UdG" secondAttribute="leading" constant="15" id="Yay-eG-xij"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="rootStackView" destination="ekE-zw-zZA" id="BXg-Lr-KEZ"/>
                                     <outlet property="txtQuestion" destination="XKn-Qb-giE" id="a2C-U3-YiC"/>
                                 </connections>
                             </tableViewCell>
@@ -518,6 +520,9 @@
                             <outlet property="delegate" destination="qEP-O0-IeL" id="1GU-mn-cWs"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="questionsTableView" destination="bBf-jk-bwS" id="nN8-j3-ddu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhR-yk-A9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
