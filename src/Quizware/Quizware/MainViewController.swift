@@ -164,7 +164,7 @@ class MainViewController: UITableViewController {
                 
                 //let lineItems = try OrdersApi.getOrderLineItems(forOrderId: id)
                 
-                // store the row index in the buttons' tags so we know what quiz the button's
+                // store the row index in the buttons' tags so we know what quiz the buttons
                 // are associated with
                 cell.btnTakeTest.tag = indexPath.row
                 cell.btnViewHistory.tag = indexPath.row

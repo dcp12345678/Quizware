@@ -8,10 +8,54 @@
 
 import UIKit
 
-class QuestionTableViewCell : UITableViewCell {
+class VCQuestionTableViewCell : UITableViewCell {
     
     @IBOutlet weak var rootStackView: UIStackView!
     @IBOutlet weak var txtQuestion: UITextView!
+    var isExpanded: Bool = false
+    @IBOutlet weak var answerTableView: VCAnswerTableView!
+    @IBOutlet weak var detailStackView: UIStackView!
+}
+
+class VCAnswerTableViewCell: UITableViewCell {
+    @IBOutlet weak var txtAnswer: UITextView!
+}
+
+class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
+    var answerArray = [String]()
+    
+    let answerCellIdentifier = "AnswerTableViewCell"
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: answerCellIdentifier, for: indexPath)
+            as! VCAnswerTableViewCell
+        
+        let row = indexPath.row
+        cell.txtAnswer.text = answerArray[row]
+        //cell.lblProductName?.text = productInfoArray[row].name
+        //cell.lblProductCount?.text = String(describing: productInfoArray[row].count)
+        
+        let color = UIColor(red: 82.0 / 255.0, green: 130.0 / 255.0, blue: 170.0 / 255.0, alpha: 1.0)
+        cell.backgroundColor = color
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return answerArray.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let row = indexPath.row
+        print(answerArray[row])
+    }
 }
 
 class ViewQuestionsViewController: UITableViewController {
@@ -62,7 +106,7 @@ class ViewQuestionsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionView", for: indexPath) as! QuestionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionView", for: indexPath) as! VCQuestionTableViewCell
 
         //if let rowData = questions?.allObjects[indexPath.row] as? QuizQuestion {
         if let rowData = sortedQuestions?[indexPath.row] as? QuizQuestion {
@@ -70,6 +114,10 @@ class ViewQuestionsViewController: UITableViewController {
             cell.txtQuestion.text = rowData.questionText
             cell.contentView.tag = indexPath.row
         }
+
+        // add a gesture recognizer for when they tap the cell
+        let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewTapped(_:)))
+        cell.contentView.addGestureRecognizer(gesture)
 
         let backgroundView: UIView = {
             let view = UIView()
@@ -79,7 +127,63 @@ class ViewQuestionsViewController: UITableViewController {
             return view
         }()
         Helper.pinBackground(backgroundView, to: cell.rootStackView)
+
+        cell.answerTableView.dataSource = cell.answerTableView
+        cell.answerTableView.delegate = cell.answerTableView
+        
+        cell.answerTableView.answerArray = [ "this is the first answer", "this is the second answer" ]
+        
+        // don't show the detail view (which contains the question's answers) initially; it will get
+        // shown if they tap the question cell
+        cell.detailStackView.isHidden = true
+        
         return cell
+    }
+
+    @objc func cellViewTapped(_ sender: UITapGestureRecognizer) {
+        let indexPath = NSIndexPath(row: (sender.view?.tag)!, section: 0) as IndexPath
+        if let cell = questionsTableView.cellForRow(at: indexPath as IndexPath) as? VCQuestionTableViewCell {
+            // if cell is expanded, then collapse it, otherwise, expand it
+            expandOrCollapseCell(at: indexPath, targetState: cell.isExpanded ? CellExpandedState.Collapsed : CellExpandedState.Expanded)
+            questionsTableView.beginUpdates()
+            questionsTableView.endUpdates()
+            
+            // scroll to the row the user tapped
+            tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+        }
+    }
+
+    private func expandOrCollapseCell(at indexPath: IndexPath, targetState: CellExpandedState) {
+        if let cell = questionsTableView.cellForRow(at: indexPath as IndexPath) as? VCQuestionTableViewCell {
+            let rowData = sortedQuestions![indexPath.row] as! QuizQuestion
+            let id = rowData.objectID
+            
+            if targetState == .Expanded {
+                
+                //
+                // we need to expand the cell's detail view
+                //
+                
+                cell.isExpanded = true
+                
+                // store the row index in the buttons' tags so we know what questions the buttons
+                // are associated with
+//                cell.btnTakeTest.tag = indexPath.row
+//                cell.btnViewHistory.tag = indexPath.row
+//                cell.btnDelete.tag = indexPath.row
+//                cell.btnEdit.tag = indexPath.row
+//
+                UIView.animate(withDuration: 0.2) {
+                    cell.detailStackView.isHidden = false;
+                }
+                
+            } else {
+                // collapse the cell's detail view
+                cell.detailStackView.isHidden = true;
+//                expandedQuizIds.remove(id)
+                cell.isExpanded = false
+            }
+        }
     }
 
     /*
