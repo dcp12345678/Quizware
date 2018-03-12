@@ -14,7 +14,7 @@ class VCQuestionTableViewCell : UITableViewCell {
     @IBOutlet weak var txtQuestion: UITextView!
     var isExpanded: Bool = false
     @IBOutlet weak var answerTableView: VCAnswerTableView!
-    @IBOutlet weak var detailStackView: UIStackView!
+    @IBOutlet weak var answerTableViewHeight: NSLayoutConstraint!
 }
 
 class VCAnswerTableViewCell: UITableViewCell {
@@ -32,6 +32,10 @@ class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate
         
         let row = indexPath.row
         cell.txtAnswer.text = answerArray[row]
+        cell.txtAnswer.layer.cornerRadius = 15.0
+        cell.txtAnswer.layer.borderWidth = 2.0
+        cell.txtAnswer.layer.borderColor = UIColor.white.cgColor
+        
         //cell.lblProductName?.text = productInfoArray[row].name
         //cell.lblProductCount?.text = String(describing: productInfoArray[row].count)
         
@@ -131,11 +135,14 @@ class ViewQuestionsViewController: UITableViewController {
         cell.answerTableView.dataSource = cell.answerTableView
         cell.answerTableView.delegate = cell.answerTableView
         
-        cell.answerTableView.answerArray = [ "this is the first answer", "this is the second answer" ]
+        cell.answerTableView.answerArray = [ "this is the first answer. it is really, really long.", "this is the second answer" ]
         
-        // don't show the detail view (which contains the question's answers) initially; it will get
+        // don't show the answer table view (which contains the question's answers) initially; it will get
         // shown if they tap the question cell
-        cell.detailStackView.isHidden = true
+        cell.answerTableView.isHidden = true
+        
+        // this step is done to remove the empty cells from end of table view
+        cell.answerTableView.tableFooterView = UIView()
         
         return cell
     }
@@ -174,14 +181,16 @@ class ViewQuestionsViewController: UITableViewController {
 //                cell.btnEdit.tag = indexPath.row
 //
                 UIView.animate(withDuration: 0.2) {
-                    cell.detailStackView.isHidden = false;
+                    cell.answerTableView.isHidden = false
+                    cell.answerTableViewHeight.constant = CGFloat(55 * cell.answerTableView.answerArray.count)
                 }
                 
             } else {
                 // collapse the cell's detail view
-                cell.detailStackView.isHidden = true;
+                cell.answerTableView.isHidden = true
 //                expandedQuizIds.remove(id)
                 cell.isExpanded = false
+                cell.answerTableViewHeight.constant = 0
             }
         }
     }

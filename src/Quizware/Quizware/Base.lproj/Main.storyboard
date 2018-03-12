@@ -151,7 +151,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10t-rx-abK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160.80000000000001" y="-86.806596701649184"/>
+            <point key="canvasLocation" x="-896" y="-92"/>
         </scene>
         <!--Edit Quiz View Controller-->
         <scene sceneID="eeC-6n-qB4">
@@ -202,7 +202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ury-IU-C4f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="706.39999999999998" y="-86.806596701649184"/>
+            <point key="canvasLocation" x="-90" y="-88"/>
         </scene>
         <!--Edit Question View Controller-->
         <scene sceneID="Rb1-6M-kb1">
@@ -259,7 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DRF-HI-drO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600.8" y="-88.605697151424295"/>
+            <point key="canvasLocation" x="748" y="-87"/>
         </scene>
         <!--Edit Answers View Controller-->
         <scene sceneID="xb4-Xy-Utj">
@@ -459,7 +459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Fr-ch-caA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2407.5" y="-88.732394366197184"/>
+            <point key="canvasLocation" x="1611" y="-92"/>
         </scene>
         <!--View Questions View Controller-->
         <scene sceneID="XkD-VR-a9x">
@@ -490,48 +490,46 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="R0c-M4-kiR">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXn-0S-fmT" customClass="VCAnswerTableView" customModule="Quizware" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="53.5" width="290" height="129"/>
-                                                    <subviews>
-                                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXn-0S-fmT" customClass="VCAnswerTableView" customModule="Quizware" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="129"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="129" id="3Sj-Sn-Poh"/>
-                                                            </constraints>
-                                                            <prototypes>
-                                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnswerTableViewCell" rowHeight="92" id="o2o-QY-4sy" customClass="VCAnswerTableViewCell" customModule="Quizware" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="28" width="290" height="92"/>
-                                                                    <autoresizingMask key="autoresizingMask"/>
-                                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o2o-QY-4sy" id="xiD-Zq-xgM">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="91.5"/>
-                                                                        <autoresizingMask key="autoresizingMask"/>
-                                                                        <subviews>
-                                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
-                                                                                <rect key="frame" x="6" y="6" width="278" height="79.5"/>
-                                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" constant="79.5" id="19R-oQ-kQB"/>
-                                                                                </constraints>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                            </textView>
-                                                                        </subviews>
+                                                    <color key="backgroundColor" red="0.32156862745098036" green="0.50980392156862742" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="129" id="zHL-hr-ATr"/>
+                                                    </constraints>
+                                                    <prototypes>
+                                                        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnswerTableViewCell" rowHeight="64" id="o2o-QY-4sy" customClass="VCAnswerTableViewCell" customModule="Quizware" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="28" width="290" height="64"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o2o-QY-4sy" id="xiD-Zq-xgM">
+                                                                <rect key="frame" x="0.0" y="0.0" width="290" height="63.5"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
+                                                                        <rect key="frame" x="6" y="6" width="278" height="50"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
-                                                                            <constraint firstItem="50F-wE-wLI" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="dm1-l6-P27"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="50F-wE-wLI" secondAttribute="trailing" constant="6" id="n0a-62-jzB"/>
-                                                                            <constraint firstItem="50F-wE-wLI" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="pp0-RP-7Jp"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="50F-wE-wLI" secondAttribute="bottom" constant="6" id="x2K-CP-1ue"/>
+                                                                            <constraint firstAttribute="height" constant="50" id="Ooj-FI-0ye"/>
                                                                         </constraints>
-                                                                    </tableViewCellContentView>
-                                                                    <connections>
-                                                                        <outlet property="txtAnswer" destination="50F-wE-wLI" id="27r-fa-kHw"/>
-                                                                    </connections>
-                                                                </tableViewCell>
-                                                            </prototypes>
-                                                        </tableView>
-                                                    </subviews>
-                                                </stackView>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="trailing" secondItem="50F-wE-wLI" secondAttribute="trailing" constant="6" id="bTa-5D-xIF"/>
+                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="fXp-WT-jOk"/>
+                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="gb2-Xz-npL"/>
+                                                                </constraints>
+                                                            </tableViewCellContentView>
+                                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <connections>
+                                                                <outlet property="txtAnswer" destination="50F-wE-wLI" id="27r-fa-kHw"/>
+                                                            </connections>
+                                                        </tableViewCell>
+                                                    </prototypes>
+                                                </tableView>
                                             </subviews>
                                         </stackView>
                                     </subviews>
@@ -544,7 +542,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="answerTableView" destination="yXn-0S-fmT" id="ZQt-t7-T1R"/>
-                                    <outlet property="detailStackView" destination="R0c-M4-kiR" id="SzP-sV-IqL"/>
+                                    <outlet property="answerTableViewHeight" destination="zHL-hr-ATr" id="ANg-zp-QrP"/>
                                     <outlet property="rootStackView" destination="ekE-zw-zZA" id="BXg-Lr-KEZ"/>
                                     <outlet property="txtQuestion" destination="XKn-Qb-giE" id="a2C-U3-YiC"/>
                                 </connections>
@@ -561,7 +559,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhR-yk-A9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3397.5" y="-64.436619718309856"/>
+            <point key="canvasLocation" x="2467.5" y="-92.957746478873247"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VCg-YK-c3O">
@@ -579,7 +577,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekn-Oq-ztB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-964" y="-87"/>
+            <point key="canvasLocation" x="-1796" y="-88"/>
         </scene>
     </scenes>
     <resources>
