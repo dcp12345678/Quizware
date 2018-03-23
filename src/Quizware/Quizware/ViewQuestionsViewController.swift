@@ -135,7 +135,14 @@ class ViewQuestionsViewController: UITableViewController {
         cell.answerTableView.dataSource = cell.answerTableView
         cell.answerTableView.delegate = cell.answerTableView
         
-        cell.answerTableView.answerArray = [ "this is the first answer. it is really, really long.", "this is the second answer" ]
+        // add a random number of answers
+        if cell.answerTableView.answerArray.count == 0 {
+            cell.answerTableView.answerArray = []
+            let numAnswers = max(Int(arc4random_uniform(9)),1)
+            for i in 1...numAnswers {
+                cell.answerTableView.answerArray.append("this is answer #\(i)" + (i%2 == 0 ? ". It is really, really, long" : ""))
+            }
+        }
         
         // don't show the answer table view (which contains the question's answers) initially; it will get
         // shown if they tap the question cell
@@ -182,7 +189,7 @@ class ViewQuestionsViewController: UITableViewController {
 //
                 UIView.animate(withDuration: 0.2) {
                     cell.answerTableView.isHidden = false
-                    cell.answerTableViewHeight.constant = CGFloat(55 * cell.answerTableView.answerArray.count)
+                    cell.answerTableViewHeight.constant = CGFloat(65 * cell.answerTableView.answerArray.count)
                 }
                 
             } else {

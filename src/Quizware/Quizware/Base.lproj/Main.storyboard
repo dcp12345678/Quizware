@@ -83,25 +83,25 @@
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rm-Hu-Vcn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="69" height="51"/>
                                                                     <state key="normal" title="Take Test!">
-                                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wq-wB-qFK">
                                                                     <rect key="frame" x="74" y="0.0" width="68.5" height="51"/>
                                                                     <state key="normal" title="History">
-                                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sxi-AR-xkV">
                                                                     <rect key="frame" x="147.5" y="0.0" width="69" height="51"/>
                                                                     <state key="normal" title="Edit">
-                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Kj-cc-kxt">
                                                                     <rect key="frame" x="221.5" y="0.0" width="68.5" height="51"/>
                                                                     <state key="normal" title="Delete">
-                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                             </subviews>
@@ -199,6 +199,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="txg-TF-k1O"/>
                     </view>
+                    <connections>
+                        <outlet property="txtQuizName" destination="ufK-WU-wbo" id="bh8-5D-rtm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ury-IU-C4f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -506,11 +509,11 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
-                                                                        <rect key="frame" x="6" y="6" width="278" height="50"/>
+                                                                        <rect key="frame" x="6" y="6" width="278" height="51.5"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="height" constant="50" id="Ooj-FI-0ye"/>
+                                                                            <constraint firstAttribute="height" constant="51.5" id="5bI-CL-Vza"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -518,9 +521,10 @@
                                                                 </subviews>
                                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="trailing" secondItem="50F-wE-wLI" secondAttribute="trailing" constant="6" id="bTa-5D-xIF"/>
-                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="fXp-WT-jOk"/>
-                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="gb2-Xz-npL"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="50F-wE-wLI" secondAttribute="bottom" constant="6" id="LwG-PY-mqk"/>
+                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="N5S-01-jJZ"/>
+                                                                    <constraint firstItem="50F-wE-wLI" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="RLw-cl-jUY"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="50F-wE-wLI" secondAttribute="trailing" constant="6" id="ukJ-XC-mH3"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

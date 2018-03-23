@@ -10,6 +10,8 @@ import UIKit
 
 class EditQuestionViewController: UIViewController {
 
+    public var quiz: Quiz?
+    
     @IBOutlet weak var txtQuestion: UITextView!
     
     override func viewDidLoad() {
