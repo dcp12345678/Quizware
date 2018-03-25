@@ -47,6 +47,55 @@ struct Helper {
         }
     }
     
+    static func saveQuizQuestion(id: NSManagedObjectID?, quizId: NSManagedObjectID, questionText: String, parentController: UIViewController? = nil) -> QuizQuestion? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        var quizQuestion: QuizQuestion = QuizQuestion()
+        
+        if let id = id {
+            // fetch the existing quiz question so we can update it
+            if let obj = managedContext.object(with: id) as? QuizQuestion {
+                quizQuestion = obj
+            } else {
+                if let parentController = parentController {
+                    showMessage(parentController: parentController, message: "Could not find existing quiz question!")
+                }
+                print("Could not find existing quiz question.")
+                return nil
+            }
+        } else {
+            // create a new quiz question
+            quizQuestion = QuizQuestion(context: managedContext)
+        }
+        quizQuestion.questionText = questionText
+        
+        if id == nil {
+            // it's a new quiz question, so we need to add it to the quiz
+            
+            // get the associated quiz for the quiz question
+            let quiz = managedContext.object(with: quizId) as! Quiz
+
+            // add the quiz question to the quiz
+            quiz.addToQuizQuestion(quizQuestion)
+        }
+        
+        // save the quiz question to persistence
+        do {
+            try managedContext.save()
+            return quizQuestion
+        } catch let error as NSError {
+            if let parentController = parentController {
+                showMessage(parentController: parentController, message: "Could not save the quiz question!")
+            }
+            print("Could not save quiz question. \(error), \(error.userInfo)")
+            return nil
+        }
+    }
+    
     static func saveQuiz(id: NSManagedObjectID?, quizName: String, parentController: UIViewController? = nil) -> Quiz? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -80,7 +129,7 @@ struct Helper {
             if let parentController = parentController {
                 showMessage(parentController: parentController, message: "Could not save the quiz!")
             }
-            print("Could not save. \(error), \(error.userInfo)")
+            print("Could not save the quiz!. \(error), \(error.userInfo)")
             return nil
         }
     }
