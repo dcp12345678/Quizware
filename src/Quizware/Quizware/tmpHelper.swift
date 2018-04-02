@@ -47,81 +47,7 @@ struct Helper {
         }
     }
     
-
-    static func deleteQuizAnswer(answerId: NSManagedObjectID?, parentController: UIViewController? = nil) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate, let answerId = answerId else {
-                return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        if let objToDelete = managedContext.object(with: answerId) as? QuizAnswer {
-
-            // delete the quiz question from persistence
-            do {
-                managedContext.delete(objToDelete)
-                try managedContext.save()
-            } catch let error as NSError {
-                if let parentController = parentController {
-                    showMessage(parentController: parentController, message: "Could not delete the quiz question!")
-                }
-                print("Could not delete the quiz question. \(error), \(error.userInfo)")
-            }
-        }
-    }
-    
-    static func saveQuizAnswer(answerId: NSManagedObjectID?, answerText: String, isCorrectAnswer: Bool, quizQuestionId: NSManagedObjectID, parentController: UIViewController? = nil) -> QuizAnswer? {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return nil
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        var quizAnswer: QuizAnswer = QuizAnswer()
-        
-        if let answerId = answerId {
-            // fetch the existing quiz answer so we can update it
-            if let obj = managedContext.object(with: answerId) as? QuizAnswer {
-                quizAnswer = obj
-            } else {
-                if let parentController = parentController {
-                    showMessage(parentController: parentController, message: "Could not find existing quiz answer!")
-                }
-                print("Could not find existing quiz answer.")
-                return nil
-            }
-        } else {
-            // create a new quiz answer
-            quizAnswer = QuizAnswer(context: managedContext)
-            
-            // it's a new quiz answer, so we need to add it to the quiz question
-            
-            // get the associated quiz question for the quiz answer
-            let quizQuestion = managedContext.object(with: quizQuestionId) as! QuizQuestion
-            
-            // add the quiz answer to the quiz question
-            quizQuestion.addToQuizAnswer(quizAnswer)
-        }
-        
-        quizAnswer.answerText = answerText
-        quizAnswer.isCorrectAnswer = isCorrectAnswer
-        quizAnswer.isSelected = false
-
-        // save the quiz answer to persistence
-        do {
-            try managedContext.save()
-            return quizAnswer
-        } catch let error as NSError {
-            if let parentController = parentController {
-                showMessage(parentController: parentController, message: "Could not save the quiz answer!")
-            }
-            print("Could not save quiz answer. \(error), \(error.userInfo)")
-            return nil
-        }
-    }
-    
-    static func saveQuizQuestion(questionId: NSManagedObjectID?, quizId: NSManagedObjectID, questionText: String, parentController: UIViewController? = nil) -> QuizQuestion? {
+    static func saveQuizQuestion(id: NSManagedObjectID?, quizId: NSManagedObjectID, questionText: String, parentController: UIViewController? = nil) -> QuizQuestion? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
@@ -130,9 +56,9 @@ struct Helper {
         let managedContext = appDelegate.persistentContainer.viewContext
         var quizQuestion: QuizQuestion = QuizQuestion()
         
-        if let questionId = questionId {
+        if let id = id {
             // fetch the existing quiz question so we can update it
-            if let obj = managedContext.object(with: questionId) as? QuizQuestion {
+            if let obj = managedContext.object(with: id) as? QuizQuestion {
                 quizQuestion = obj
             } else {
                 if let parentController = parentController {
@@ -147,7 +73,7 @@ struct Helper {
         }
         quizQuestion.questionText = questionText
         
-        if questionId == nil {
+        if id == nil {
             // it's a new quiz question, so we need to add it to the quiz
             
             // get the associated quiz for the quiz question
@@ -170,7 +96,7 @@ struct Helper {
         }
     }
     
-    static func saveQuiz(quizId: NSManagedObjectID?, quizName: String, parentController: UIViewController? = nil) -> Quiz? {
+    static func saveQuiz(id: NSManagedObjectID?, quizName: String, parentController: UIViewController? = nil) -> Quiz? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
@@ -178,9 +104,9 @@ struct Helper {
 
         let managedContext = appDelegate.persistentContainer.viewContext
         var quiz: Quiz = Quiz()
-        if let quizId = quizId {
+        if let id = id {
             // fetch the existing quiz so we can update it
-            if let obj = managedContext.object(with: quizId) as? Quiz {
+            if let obj = managedContext.object(with: id) as? Quiz {
                 quiz = obj
             } else {
                 if let parentController = parentController {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol AnswerTableViewCellDelegate {
     func setDeleteButton()
@@ -16,7 +17,7 @@ class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var txtAnswer: UITextView!
     @IBOutlet weak var btnCorrectOrIncorrectAnswer: UIButton!
     @IBOutlet weak var btnSelectAnswer: UIButton!
-    var answers: [NSMutableDictionary]?
+    var answers: [QuizAnswer]?
     var delegate: AnswerTableViewCellDelegate?
     
     override func layoutSubviews() {
@@ -27,20 +28,19 @@ class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         // update the answer's text in the answers array
         let index = textView.tag
-        answers![index]["text"] = textView.text
+        answers![index].answerText = textView.text
     }
 
     @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
         if let btn = sender as? UIButton {
             NSLog("row number of selected row is \(btn.tag)")
             let answer = answers![btn.tag]
-            let isSelected = answer["isSelected"] as! Bool
             
             // toggle selection state, then set the proper button icon to show whether the
             // answer is selected or unselected (open circle means not selected, checked
             // circle means selected)
-            answer["isSelected"] = !isSelected
-            if (answer["isSelected"] as! Bool) {
+            answer.isSelected = !answer.isSelected
+            if (answer.isSelected) {
                 btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
             } else {
                 btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
@@ -51,14 +51,13 @@ class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
             delegate?.setDeleteButton()
         }
     }
-    
 }
 
 class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, AnswerTableViewCellDelegate {
 
     let lineItemCellIdentifier = "AnswerLineItem"
     var parentViewController: EditAnswersViewController?
-    var answers = [NSMutableDictionary]()
+    var answers = [QuizAnswer]()
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -72,23 +71,21 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: lineItemCellIdentifier, for: indexPath) as! AnswerTableViewCell
         let answer = answers[indexPath.row]
-        cell.txtAnswer.text = answer["text"] as? String
-        if let isCorrect = answer["isCorrect"] as? Bool {
-            if isCorrect {
-                cell.btnCorrectOrIncorrectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
-                cell.btnCorrectOrIncorrectAnswer.setTitleColor(UIColor.green, for: .normal)
-                cell.btnCorrectOrIncorrectAnswer.setTitle(String.fontAwesomeIcon(name: .check), for: .normal)
-            } else {
-                cell.btnCorrectOrIncorrectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
-                cell.btnCorrectOrIncorrectAnswer.setTitleColor(UIColor.red, for: .normal)
-                cell.btnCorrectOrIncorrectAnswer.setTitle(String.fontAwesomeIcon(name: .remove), for: .normal)
-            }
+        cell.txtAnswer.text = answer.answerText
+        if answer.isCorrectAnswer {
+            cell.btnCorrectOrIncorrectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
+            cell.btnCorrectOrIncorrectAnswer.setTitleColor(UIColor.green, for: .normal)
+            cell.btnCorrectOrIncorrectAnswer.setTitle(String.fontAwesomeIcon(name: .check), for: .normal)
+        } else {
+            cell.btnCorrectOrIncorrectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
+            cell.btnCorrectOrIncorrectAnswer.setTitleColor(UIColor.red, for: .normal)
+            cell.btnCorrectOrIncorrectAnswer.setTitle(String.fontAwesomeIcon(name: .remove), for: .normal)
         }
 
         // only show the button for selecting an answer if we are in edit mode
         if parentViewController!.isEditing {
             cell.btnSelectAnswer.isHidden = false
-            if (answer["isSelected"] as! Bool) == true {
+            if answer.isSelected {
                 cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
             } else {
                 cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
@@ -120,7 +117,7 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
         // otherwise disable it
         var isAtLeastOneSelected = false
         for answer in answers {
-            if (answer["isSelected"] as! Bool) {
+            if (answer.isSelected) {
                 isAtLeastOneSelected = true
                 break
             }
@@ -143,7 +140,7 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
 
 class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, UITextViewDelegate {
     
-    var questionText: String?
+    var quizQuestion: QuizQuestion?
     @IBOutlet weak var txtQuestion: UITextView!
     @IBOutlet weak var answerTableView: AnswerTableView!
     @IBOutlet weak var txtAnswer: UITextView!
@@ -166,7 +163,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         // disable it
         var atLeastOneSelected = false
         for answer in answerTableView.answers {
-            if (answer["isSelected"] as! Bool) {
+            if (answer.isSelected) {
                 atLeastOneSelected = true
                 break
             }
@@ -193,7 +190,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if let questionText = questionText {
+        if let questionText = quizQuestion?.questionText {
             txtQuestion.text = questionText
         }
      
@@ -208,7 +205,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
                                                                  action: #selector(saveOnPress))
         
         for answer in answerTableView.answers {
-            answer["isSelected"] = false
+            answer.isSelected = false
         }
         
         isEditing = false
@@ -256,10 +253,14 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
     @IBAction func btnDeleteWasTapped(_ sender: Any) {
         // -- delete any selected anwswers --
         // we will make a new answers array and just add the non-selected
-        // answers to it
-        var newAnswers = [NSMutableDictionary]()
+        // answers to it and delete the selected answers
+        var newAnswers = [QuizAnswer]()
         for answer in answerTableView.answers {
-            if !(answer["isSelected"] as! Bool) {
+            if answer.isSelected {
+                // answer was selected, so we delete it
+                Helper.deleteQuizAnswer(answerId: answer.objectID)
+            } else {
+                // answer was not selected, so we keep it
                 newAnswers.append(answer)
             }
         }
@@ -268,15 +269,16 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
     }
     
     private func addAnswer(isCorrect: Bool) {
-        let answer = NSMutableDictionary()
-        answer["text"] = txtAnswer.text
-        answer["isCorrect"] = isCorrect
-        answer["isSelected"] = false
-        answerTableView.answers.append(answer)
-        answerTableView.reloadData()
+        let savedAnswer = Helper.saveQuizAnswer(answerId: nil, answerText: txtAnswer.text,
+            isCorrectAnswer: isCorrect, quizQuestionId: quizQuestion!.objectID, parentController: self)
+        if let savedAnswer = savedAnswer {
+            answerTableView.answers.append(savedAnswer)
+            answerTableView.reloadData()
+        }
         
         // clear the answer text view so they can enter another answer
         txtAnswer.text = ""
+            
         txtAnswer.endEditing(true)
     }
     
@@ -296,7 +298,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         self.btnDelete.isHidden = true
         self.btnDone.isHidden = true
         for answer in answerTableView.answers {
-            answer["isSelected"] = false
+            answer.isSelected = false
         }
         answerTableView.reloadData()
     }
