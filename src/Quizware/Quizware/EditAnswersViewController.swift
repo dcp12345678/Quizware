@@ -199,10 +199,10 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         answerTableView.parentViewController = self
         
         // create button for cancelling the edit
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self,
-                                                                action: #selector(cancelOnPress))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self,
-                                                                 action: #selector(saveOnPress))
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self,
+        //                                                        action: #selector(cancelOnPress))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
+                                                                 action: #selector(doneOnPress))
         
         for answer in answerTableView.answers {
             answer.isSelected = false
@@ -233,7 +233,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func saveOnPress() {
+    @objc func doneOnPress() {
         performSegue(withIdentifier: "viewQuestions", sender: self)
     }
 
