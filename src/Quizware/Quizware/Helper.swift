@@ -47,7 +47,6 @@ struct Helper {
         }
     }
     
-
     static func deleteQuizAnswer(answerId: NSManagedObjectID?, parentController: UIViewController? = nil) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate, let answerId = answerId else {
@@ -263,7 +262,7 @@ struct Helper {
         }
     }
     
-    static func getQuizQuestions(quizId: NSManagedObjectID) -> NSMutableSet? {
+    static func getQuizQuestions(forQuizId quizId: NSManagedObjectID) -> NSMutableSet? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
@@ -284,7 +283,19 @@ struct Helper {
 //        quizAnswer.answerText = "answer #1"
 //        quizQuestion.addToQuizAnswer(quizAnswer)
     }
-    
+
+    static func getQuizAnswers(forQuizQuestionId quizQuestionId: NSManagedObjectID) -> NSMutableSet? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let quizQuestion = managedContext.object(with: quizQuestionId)
+        let quizAnswers = quizQuestion.mutableSetValue(forKey: "quizAnswer")
+        return quizAnswers
+    }
+
     static func showMessage(parentController: UIViewController, message: String, title: String = "Info") {
         let controller = UIAlertController(
             title: title,

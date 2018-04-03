@@ -113,13 +113,24 @@ class ViewQuestionsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionView", for: indexPath) as! VCQuestionTableViewCell
 
         //if let rowData = questions?.allObjects[indexPath.row] as? QuizQuestion {
-        if let rowData = sortedQuestions?[indexPath.row] as? QuizQuestion {
-            print("rowData = \(rowData)")
-            cell.txtQuestion.text = rowData.questionText
+        if let quizQuestion = sortedQuestions?[indexPath.row] as? QuizQuestion {
+            print("quizQuestion = \(quizQuestion)")
+            cell.txtQuestion.text = quizQuestion.questionText
             cell.contentView.tag = indexPath.row
+
+            if cell.answerTableView.answerArray.count == 0 {
+                // get the answers for the question
+                if let answers = Helper.getQuizAnswers(forQuizQuestionId: quizQuestion.objectID) {
+                    cell.answerTableView.answerArray = []
+                    for case let answer as QuizAnswer in answers {
+                        print("answer = \(answer)")
+                        cell.answerTableView.answerArray.append(answer.answerText ?? "")
+                    }
+                }
+            }
         }
 
-        // add a gesture recognizer for when they tap the cell
+        // add a gesture recognizer for when∫ they tap the cell
         let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewTapped(_:)))
         cell.contentView.addGestureRecognizer(gesture)
 
@@ -136,16 +147,17 @@ class ViewQuestionsViewController: UITableViewController {
         cell.answerTableView.delegate = cell.answerTableView
         
         // add a random number of answers
-        if cell.answerTableView.answerArray.count == 0 {
-            cell.answerTableView.answerArray = []
-            let numAnswers = max(Int(arc4random_uniform(9)),1)
-            for i in 1...numAnswers {
-                cell.answerTableView.answerArray.append("this is answer #\(i)" + (i%2 == 0 ? ". It is really, really, long" : ""))
-            }
-        }
+//        if cell.answerTableView.answerArray.count == 0 {
+//            cell.answerTableView.answerArray = []
+//            let numAnswers = max(Int(arc4random_uniform(9)), 1)
+//            for i in 1...numAnswers {
+//                cell.answerTableView.answerArray.append("this is answer #\(i)" + (i % 2 == 0 ? ". It is really, really, long" : ""))
+//            }
+//        }
+        
         
         // don't show the answer table view (which contains the question's answers) initially; it will get
-        // shown if they tap the question cell
+        // shown if they tap the question cell to expand its detail
         cell.answerTableView.isHidden = true
         
         // this step is done to remove the empty cells from end of table view

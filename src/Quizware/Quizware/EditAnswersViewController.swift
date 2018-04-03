@@ -311,7 +311,8 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "viewQuestions" {
-            let quizQuestions = Helper.getQuizQuestions(quizId: Helper.dummyQuizId!)
+            //let quizQuestions = Helper.getQuizQuestions(forQuizId: Helper.dummyQuizId!)
+            let quizQuestions = Helper.getQuizQuestions(forQuizId: quizQuestion!.quiz!.objectID)
             (segue.destination as! ViewQuestionsViewController).questions = quizQuestions
         }
     }
