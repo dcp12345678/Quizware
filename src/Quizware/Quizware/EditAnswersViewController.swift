@@ -198,9 +198,6 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         answerTableView.dataSource = answerTableView
         answerTableView.parentViewController = self
         
-        // create button for cancelling the edit
-        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self,
-        //                                                        action: #selector(cancelOnPress))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                                  action: #selector(doneOnPress))
         
@@ -228,10 +225,10 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
 
     }
     
-    @objc func cancelOnPress() {
-        //Helper.showMessage(parentController: self, message: "Cancel button tapped!")
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @objc func cancelOnPress() {
+//        //Helper.showMessage(parentController: self, message: "Cancel button tapped!")
+//        self.navigationController?.popViewController(animated: true)
+//    }
     
     @objc func doneOnPress() {
         performSegue(withIdentifier: "viewQuestions", sender: self)
