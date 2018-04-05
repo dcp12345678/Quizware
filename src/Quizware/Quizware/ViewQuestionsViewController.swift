@@ -77,8 +77,12 @@ class ViewQuestionsViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
+        // don't show the back button
+        self.navigationItem.setHidesBackButton(true, animated:true)
+        
+        // add a button for them to add another question
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
-                                                                 action: #selector(addQuestionOnPress))
+                                                                 action: #selector(addQuestionWasTapped))
 
         sortedQuestions = questions?.allObjects.sorted { (a, b) -> Bool in
             let a = a as! QuizQuestion
@@ -100,7 +104,7 @@ class ViewQuestionsViewController: UITableViewController {
         questionsTableView.estimatedRowHeight = 120
     }
 
-    @objc func addQuestionOnPress() {
+    @objc func addQuestionWasTapped() {
         //performSegue(withIdentifier: "viewQuestions", sender: self)
     }
 
@@ -141,7 +145,7 @@ class ViewQuestionsViewController: UITableViewController {
         }
 
         // add a gesture recognizer for when∫ they tap the cell
-        let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewTapped(_:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewWasTapped(_:)))
         cell.contentView.addGestureRecognizer(gesture)
 
         let backgroundView: UIView = {
@@ -176,7 +180,7 @@ class ViewQuestionsViewController: UITableViewController {
         return cell
     }
 
-    @objc func cellViewTapped(_ sender: UITapGestureRecognizer) {
+    @objc func cellViewWasTapped(_ sender: UITapGestureRecognizer) {
         let indexPath = NSIndexPath(row: (sender.view?.tag)!, section: 0) as IndexPath
         if let cell = questionsTableView.cellForRow(at: indexPath as IndexPath) as? VCQuestionTableViewCell {
             // if cell is expanded, then collapse it, otherwise, expand it

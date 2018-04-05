@@ -199,7 +199,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         answerTableView.parentViewController = self
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
-                                                                 action: #selector(doneOnPress))
+                                                                 action: #selector(doneWasTapped))
         
         for answer in answerTableView.answers {
             answer.isSelected = false
@@ -225,12 +225,12 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
 
     }
     
-//    @objc func cancelOnPress() {
+//    @objc func cancelWasTapped() {
 //        //Helper.showMessage(parentController: self, message: "Cancel button tapped!")
 //        self.navigationController?.popViewController(animated: true)
 //    }
     
-    @objc func doneOnPress() {
+    @objc func doneWasTapped() {
         performSegue(withIdentifier: "viewQuestions", sender: self)
     }
 

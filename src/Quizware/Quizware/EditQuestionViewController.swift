@@ -36,7 +36,6 @@ class EditQuestionViewController: UIViewController {
         }
         return false
     }
-
     
     // MARK: - Navigation
 
