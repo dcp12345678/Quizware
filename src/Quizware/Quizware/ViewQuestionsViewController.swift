@@ -10,6 +10,8 @@ import UIKit
 
 class VCQuestionTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var detailStackView: UIStackView!
     @IBOutlet weak var rootStackView: UIStackView!
     @IBOutlet weak var txtQuestion: UITextView!
     var isExpanded: Bool = false
@@ -170,9 +172,9 @@ class ViewQuestionsViewController: UITableViewController {
 //        }
 
 
-        // don't show the answer table view (which contains the question's answers) initially; it will get
+        // don't show the detail stack view (which contains the question's answers) initially; it will get
         // shown if they tap the question cell to expand its detail
-        cell.answerTableView.isHidden = true
+        cell.detailStackView.isHidden = true
 
         // this step is done to remove the empty cells from end of table view
         cell.answerTableView.tableFooterView = UIView()
@@ -214,16 +216,18 @@ class ViewQuestionsViewController: UITableViewController {
 //                cell.btnEdit.tag = indexPath.row
 //
                 UIView.animate(withDuration: 0.2) {
-                    cell.answerTableView.isHidden = false
+                    cell.detailStackView.isHidden = false
+                    cell.btnEdit.setTitle(String.fontAwesomeIcon(name: .edit), for: .normal)
+                    cell.btnEdit.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
                     cell.answerTableViewHeight.constant = CGFloat(65 * cell.answerTableView.answerArray.count)
                 }
 
             } else {
                 // collapse the cell's detail view
-                cell.answerTableView.isHidden = true
+                cell.detailStackView.isHidden = true
 //                expandedQuizIds.remove(id)
                 cell.isExpanded = false
-                cell.answerTableViewHeight.constant = 0
+                //cell.answerTableViewHeight.constant = 0
             }
         }
     }
