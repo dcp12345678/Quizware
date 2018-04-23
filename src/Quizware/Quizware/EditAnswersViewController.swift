@@ -140,6 +140,7 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
 
 class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, UITextViewDelegate {
     
+    var quiz: Quiz?
     var quizQuestion: QuizQuestion?
     @IBOutlet weak var txtQuestion: UITextView!
     @IBOutlet weak var answerTableView: AnswerTableView!
@@ -311,6 +312,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
             //let quizQuestions = Helper.getQuizQuestions(forQuizId: Helper.dummyQuizId!)
             let quizQuestions = Helper.getQuizQuestions(forQuizId: quizQuestion!.quiz!.objectID)
             (segue.destination as! ViewQuestionsViewController).questions = quizQuestions
+            (segue.destination as! ViewQuestionsViewController).quiz = quiz
         }
     }
 

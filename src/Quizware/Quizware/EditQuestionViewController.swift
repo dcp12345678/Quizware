@@ -43,6 +43,7 @@ class EditQuestionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editAnswers" {
             (segue.destination as! EditAnswersViewController).quizQuestion = quizQuestion
+            (segue.destination as! EditAnswersViewController).quiz = quiz
         }
     }
 
