@@ -522,23 +522,25 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="63.5"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <subviews>
-                                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
+                                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zAO-eT-99z">
                                                                                 <rect key="frame" x="6" y="6" width="278" height="51.5"/>
-                                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="51.5" id="5bI-CL-Vza"/>
-                                                                                </constraints>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                            </textView>
+                                                                                <subviews>
+                                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="278" height="51.5"/>
+                                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                                    </textView>
+                                                                                </subviews>
+                                                                            </stackView>
                                                                         </subviews>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="bottom" secondItem="50F-wE-wLI" secondAttribute="bottom" constant="6" id="LwG-PY-mqk"/>
-                                                                            <constraint firstItem="50F-wE-wLI" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="N5S-01-jJZ"/>
-                                                                            <constraint firstItem="50F-wE-wLI" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="RLw-cl-jUY"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="50F-wE-wLI" secondAttribute="trailing" constant="6" id="ukJ-XC-mH3"/>
+                                                                            <constraint firstItem="zAO-eT-99z" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="7S1-tM-uFM"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="zAO-eT-99z" secondAttribute="trailing" constant="6" id="Gns-nI-v4O"/>
+                                                                            <constraint firstItem="zAO-eT-99z" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="OTH-lU-qPR"/>
+                                                                            <constraint firstAttribute="bottom" secondItem="zAO-eT-99z" secondAttribute="bottom" constant="6" id="rMa-Ty-pSY"/>
                                                                         </constraints>
                                                                     </tableViewCellContentView>
                                                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
