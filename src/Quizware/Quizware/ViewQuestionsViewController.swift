@@ -17,6 +17,11 @@ class VCQuestionTableViewCell: UITableViewCell {
     var isExpanded: Bool = false
     @IBOutlet weak var answerTableView: VCAnswerTableView!
     @IBOutlet weak var answerTableViewHeight: NSLayoutConstraint!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        btnEdit.isHidden = true
+    }
 }
 
 class VCAnswerTableViewCell: UITableViewCell {
@@ -218,8 +223,10 @@ class ViewQuestionsViewController: UITableViewController {
 //
                 UIView.animate(withDuration: 0.2) {
                     cell.detailStackView.isHidden = false
+                    cell.btnEdit.isHidden = false
                     cell.btnEdit.setTitle(String.fontAwesomeIcon(name: .edit), for: .normal)
                     cell.btnEdit.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+                    cell.btnEdit.setTitleColor(UIColor.white, for: .normal)
                     cell.answerTableViewHeight.constant = CGFloat(65 * cell.answerTableView.answerArray.count)
                 }
 
@@ -229,6 +236,8 @@ class ViewQuestionsViewController: UITableViewController {
 //                expandedQuizIds.remove(id)
                 cell.isExpanded = false
                 //cell.answerTableViewHeight.constant = 0
+                
+                cell.btnEdit.isHidden = true
             }
         }
     }

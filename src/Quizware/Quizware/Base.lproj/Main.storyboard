@@ -484,24 +484,29 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ekE-zw-zZA">
                                             <rect key="frame" x="15" y="15" width="290" height="182.5"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="This is the question text" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XKn-Qb-giE">
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cf3-Rs-Wo7">
                                                     <rect key="frame" x="0.0" y="0.0" width="290" height="53.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="53.5" id="gmj-9j-kSy"/>
-                                                    </constraints>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
+                                                    <subviews>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="This is the question text" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XKn-Qb-giE">
+                                                            <rect key="frame" x="0.0" y="0.0" width="260" height="53.5"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        </textView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="th8-3q-dhJ">
+                                                            <rect key="frame" x="260" y="0.0" width="30" height="53.5"/>
+                                                            <state key="normal" title="Edit">
+                                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            </state>
+                                                            <connections>
+                                                                <segue destination="Jk1-vI-nMF" kind="show" identifier="editAnswers" id="xRq-Fl-Aj5"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dpg-NM-fQC">
                                                     <rect key="frame" x="0.0" y="53.5" width="290" height="129"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="th8-3q-dhJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="0.0"/>
-                                                            <state key="normal" title="Edit">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                        </button>
                                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXn-0S-fmT" customClass="VCAnswerTableView" customModule="Quizware" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="290" height="129"/>
                                                             <color key="backgroundColor" red="0.32156862745098036" green="0.50980392156862742" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -522,7 +527,7 @@
                                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="height" constant="51.5" id="5bI-CL-Vza"/>
+                                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="51.5" id="5bI-CL-Vza"/>
                                                                                 </constraints>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -577,7 +582,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhR-yk-A9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1329" y="757"/>
+            <point key="canvasLocation" x="879" y="770"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VCg-YK-c3O">
@@ -603,6 +608,7 @@
         <image name="edit(1)" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="xRq-Fl-Aj5"/>
         <segue reference="ZOf-Yj-cph"/>
     </inferredMetricsTieBreakers>
 </document>
