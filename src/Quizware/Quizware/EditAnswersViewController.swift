@@ -187,6 +187,10 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        txtQuestion.setContentOffset(.zero, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
