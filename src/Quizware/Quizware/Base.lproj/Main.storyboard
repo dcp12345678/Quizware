@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -522,30 +523,24 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="63.5"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <subviews>
-                                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zAO-eT-99z">
-                                                                                <rect key="frame" x="6" y="6" width="278" height="51.5"/>
-                                                                                <subviews>
-                                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="this is the answer" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50F-wE-wLI">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="278" height="51.5"/>
-                                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                                    </textView>
-                                                                                </subviews>
-                                                                            </stackView>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="44" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eec-fc-yhb">
+                                                                                <rect key="frame" x="15" y="11" width="260" height="38"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
                                                                         </subviews>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
-                                                                            <constraint firstItem="zAO-eT-99z" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="top" constant="6" id="7S1-tM-uFM"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="zAO-eT-99z" secondAttribute="trailing" constant="6" id="Gns-nI-v4O"/>
-                                                                            <constraint firstItem="zAO-eT-99z" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leading" constant="6" id="OTH-lU-qPR"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="zAO-eT-99z" secondAttribute="bottom" constant="6" id="rMa-Ty-pSY"/>
+                                                                            <constraint firstItem="eec-fc-yhb" firstAttribute="trailing" secondItem="xiD-Zq-xgM" secondAttribute="trailingMargin" id="5sI-DP-oOQ"/>
+                                                                            <constraint firstAttribute="bottomMargin" secondItem="eec-fc-yhb" secondAttribute="bottom" constant="4" id="AV9-og-q1L"/>
+                                                                            <constraint firstItem="eec-fc-yhb" firstAttribute="leading" secondItem="xiD-Zq-xgM" secondAttribute="leadingMargin" id="dl8-Yx-21R"/>
+                                                                            <constraint firstItem="eec-fc-yhb" firstAttribute="top" secondItem="xiD-Zq-xgM" secondAttribute="topMargin" id="ymf-7A-yyB"/>
                                                                         </constraints>
                                                                     </tableViewCellContentView>
                                                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <connections>
-                                                                        <outlet property="txtAnswer" destination="50F-wE-wLI" id="27r-fa-kHw"/>
+                                                                        <outlet property="lblAnswer" destination="eec-fc-yhb" id="dtc-3t-F73"/>
                                                                     </connections>
                                                                 </tableViewCell>
                                                             </prototypes>
@@ -584,7 +579,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhR-yk-A9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="879" y="770"/>
+            <point key="canvasLocation" x="877.5" y="769.0140845070423"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VCg-YK-c3O">

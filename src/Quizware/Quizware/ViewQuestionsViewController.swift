@@ -25,7 +25,7 @@ class VCQuestionTableViewCell: UITableViewCell {
 }
 
 class VCAnswerTableViewCell: UITableViewCell {
-    @IBOutlet weak var txtAnswer: UITextView!
+    @IBOutlet weak var lblAnswer: UILabel!
 }
 
 class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
@@ -38,10 +38,10 @@ class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate
         as! VCAnswerTableViewCell
 
         let row = indexPath.row
-        cell.txtAnswer.text = answerArray[row]
-        cell.txtAnswer.layer.cornerRadius = 15.0
-        cell.txtAnswer.layer.borderWidth = 2.0
-        cell.txtAnswer.layer.borderColor = UIColor.white.cgColor
+        cell.lblAnswer.text = answerArray[row]
+        cell.lblAnswer.layer.cornerRadius = 15.0
+        cell.lblAnswer.layer.borderWidth = 2.0
+        cell.lblAnswer.layer.borderColor = UIColor.white.cgColor
 
         //cell.lblProductName?.text = productInfoArray[row].name
         //cell.lblProductCount?.text = String(describing: productInfoArray[row].count)
