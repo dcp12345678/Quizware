@@ -35,13 +35,18 @@ class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: answerCellIdentifier, for: indexPath)
-        as! VCAnswerTableViewCell
+            as! VCAnswerTableViewCell
 
         let row = indexPath.row
         cell.lblAnswer.text = answerArray[row]
-        cell.lblAnswer.layer.cornerRadius = 15.0
-        cell.lblAnswer.layer.borderWidth = 2.0
+        cell.lblAnswer.layer.masksToBounds = true
+        cell.lblAnswer.layer.cornerRadius = 0.0
+        cell.lblAnswer.layer.borderWidth = 0.0
         cell.lblAnswer.layer.borderColor = UIColor.white.cgColor
+        
+        //cell.lblAnswer.numberOfLines = 2
+        //cell.lblAnswer.lineBreakMode = NSLineBreakMode.byWordWrapping
+        //cell.lblAnswer.sizeToFit()
 
         //cell.lblProductName?.text = productInfoArray[row].name
         //cell.lblProductCount?.text = String(describing: productInfoArray[row].count)
@@ -60,7 +65,11 @@ class VCAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -156,6 +165,7 @@ class ViewQuestionsViewController: UITableViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewWasTapped(_:)))
         cell.contentView.addGestureRecognizer(gesture)
 
+        // this code is used to set the background color of the stackview and also the corner radius
         let backgroundView: UIView = {
             let view = UIView()
             let color = UIColor(red: 82.0 / 255.0, green: 130.0 / 255.0, blue: 170.0 / 255.0, alpha: 1.0)
@@ -167,6 +177,9 @@ class ViewQuestionsViewController: UITableViewController {
 
         cell.answerTableView.dataSource = cell.answerTableView
         cell.answerTableView.delegate = cell.answerTableView
+        
+        cell.answerTableView.estimatedRowHeight = 80
+        cell.answerTableView.rowHeight = UITableViewAutomaticDimension
 
         // add a random number of answers
 //        if cell.answerTableView.answerArray.count == 0 {
