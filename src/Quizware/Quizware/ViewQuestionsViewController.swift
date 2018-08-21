@@ -7,11 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
-class VCQuestionTableViewCell: UITableViewCell {
+struct Question {
+    var questionText: String
+    var answers: [String]
+    var isExpanded = true
+}
 
-    @IBOutlet weak var lblQuestion: UILabel!
-    var isExpanded: Bool = false
+class VCAnswerTableViewCell: UITableViewCell {
+
+    @IBOutlet weak var lblAnswer: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +29,10 @@ class ViewQuestionsViewController: UITableViewController {
 
     @IBOutlet var questionsTableView: UITableView!
     var questions: NSMutableSet?
-    var sortedQuestions: [Any]?
+    var sortedQuestions = [Question]()
     var quiz: Quiz?
+
+    //var answers: [ NSManagedObjectID: [Any]] = [ NSManagedObjectID: [Any]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +44,13 @@ class ViewQuestionsViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
         // don't show the back button
-        self.navigationItem.setHidesBackButton(true, animated:true)
-        
+        self.navigationItem.setHidesBackButton(true, animated: true)
+
         // add a button for them to add another question
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                                  action: #selector(addQuestionWasTapped))
-        
-        sortedQuestions = questions?.allObjects.sorted { (a, b) -> Bool in
+
+        let tmpQuestions = questions?.allObjects.sorted { (a, b) -> Bool in
             let a = a as! QuizQuestion
             let b = b as! QuizQuestion
             if a.createDate != nil && b.createDate != nil {
@@ -50,6 +58,21 @@ class ViewQuestionsViewController: UITableViewController {
             }
             return true
         }
+
+        for case let question as QuizQuestion in tmpQuestions! {
+            var questionToAdd = Question(questionText: question.questionText!, answers: [], isExpanded: true)
+            if let a = Helper.getQuizAnswers(forQuizQuestionId: question.objectID) {
+                for case let answer as QuizAnswer in a {
+                    questionToAdd.answers.append(answer.answerText!)
+                }
+            }
+            sortedQuestions.append(questionToAdd)
+        }
+
+//        for case let question as Question in sortedQuestions! {
+//            let a = Helper.getQuizAnswers(forQuizQuestionId: question.objectID)
+//            answers[question.objectID] = a?.allObjects
+//        }
 
         //questionsTableView.separatorColor = UIColor.white
         //questionsTableView.separatorInset = .zero
@@ -71,29 +94,64 @@ class ViewQuestionsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return sortedQuestions.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return questions == nil ? 0 : questions!.count
+        if !sortedQuestions[section].isExpanded {
+            return 0
+        }
+        return sortedQuestions[section].answers.count
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "Header"
-        label.backgroundColor = UIColor.lightGray
-        return label
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTableViewCell", for: indexPath) as! VCQuestionTableViewCell
+        let button = UIButton(type: .system)
+        button.setTitle("Close", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .yellow
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.tag = section
+        button.addTarget(self, action: #selector(handleExpandClose), for: .touchUpInside)
 
-        if let quizQuestion = sortedQuestions?[indexPath.row] as? QuizQuestion {
-            print("quizQuestion = \(quizQuestion)")
-            let text = quizQuestion.questionText!
-            cell.lblQuestion.text = "\(text) Section:\(indexPath.section) Row: \(indexPath.row) "
-            cell.contentView.tag = indexPath.row
+        return button
+
+//        let label = UILabel()
+//        label.text = (sortedQuestions?[section] as? QuizQuestion)?.questionText
+//        label.backgroundColor = UIColor.lightGray
+//        return label
+    }
+
+    @objc func handleExpandClose(button: UIButton) {
+        print("Trying to expand and close section...")
+
+        let section = button.tag
+
+        var indexPaths = [IndexPath]()
+        for i in 0..<sortedQuestions[section].answers.count {
+            indexPaths.append(IndexPath(row: i, section: section))
         }
+        
+        sortedQuestions[section].isExpanded = !sortedQuestions[section].isExpanded
+        
+        button.setTitle(sortedQuestions[section].isExpanded ? "Close" : "Open", for: .normal)
+        
+        if sortedQuestions[section].isExpanded {
+            tableView.insertRows(at: indexPaths, with: .fade)
+            button.titleLabel?.text = "Close"
+        } else {
+            tableView.deleteRows(at: indexPaths, with: .fade)
+            button.titleLabel?.text = "Open"
+        }
+
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerTableViewCell", for: indexPath) as! VCAnswerTableViewCell
+
+        // Get the answer using the indexPath.section and indexPath.row. The indexPath.section
+        // gets us the question we are on, and the indexPath.row gets us the answer for that
+        // quiz question.
+        cell.lblAnswer.text = sortedQuestions[indexPath.section].answers[indexPath.row]
         return cell
     }
 
@@ -103,7 +161,7 @@ class ViewQuestionsViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        
+
         if segue.identifier == "addQuestion" {
             // store the quiz in the target controller
             (segue.destination as! EditQuestionViewController).quiz = quiz
