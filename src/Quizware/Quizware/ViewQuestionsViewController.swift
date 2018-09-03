@@ -152,7 +152,7 @@ class ViewQuestionsViewController: UITableViewController {
             }
         }
 
-        // add a gesture recognizer for when∫ they tap the cell
+        // add a gesture recognizer for when they tap the cell
         let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewWasTapped(_:)))
         cell.contentView.addGestureRecognizer(gesture)
 
