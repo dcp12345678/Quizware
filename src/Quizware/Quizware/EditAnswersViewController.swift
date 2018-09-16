@@ -197,6 +197,13 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         // Do any additional setup after loading the view.
         if let questionText = quizQuestion?.questionText {
             txtQuestion.text = questionText
+            
+            if let answers = Helper.getQuizAnswers(forQuizQuestionId: quizQuestion!.objectID) {
+                answerTableView.answers = [QuizAnswer]()
+                for case let answer as QuizAnswer in answers {
+                    answerTableView.answers.append(answer)
+                }
+            }
         }
      
         answerTableView.delegate = answerTableView
