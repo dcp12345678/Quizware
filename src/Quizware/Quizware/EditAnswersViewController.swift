@@ -16,7 +16,6 @@ protocol AnswerTableViewCellDelegate {
 class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var txtAnswer: UITextView!
     @IBOutlet weak var btnCorrectOrIncorrectAnswer: UIButton!
-    @IBOutlet weak var btnSelectAnswer: UIButton!
     var answers: [QuizAnswer]?
     var delegate: AnswerTableViewCellDelegate?
     
@@ -31,26 +30,26 @@ class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
         answers![index].answerText = textView.text
     }
 
-    @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
-        if let btn = sender as? UIButton {
-            NSLog("row number of selected row is \(btn.tag)")
-            let answer = answers![btn.tag]
-            
-            // toggle selection state, then set the proper button icon to show whether the
-            // answer is selected or unselected (open circle means not selected, checked
-            // circle means selected)
-            answer.isSelected = !answer.isSelected
-            if (answer.isSelected) {
-                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
-            } else {
-                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
-            }
-            
-            // either enable or disable the delete button depending on whether any answers
-            // are selected
-            delegate?.setDeleteButton()
-        }
-    }
+//    @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
+//        if let btn = sender as? UIButton {
+//            NSLog("row number of selected row is \(btn.tag)")
+//            let answer = answers![btn.tag]
+//
+//            // toggle selection state, then set the proper button icon to show whether the
+//            // answer is selected or unselected (open circle means not selected, checked
+//            // circle means selected)
+//            answer.isSelected = !answer.isSelected
+//            if (answer.isSelected) {
+//                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
+//            } else {
+//                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
+//            }
+//
+//            // either enable or disable the delete button depending on whether any answers
+//            // are selected
+//            delegate?.setDeleteButton()
+//        }
+//    }
 }
 
 class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, AnswerTableViewCellDelegate {
@@ -72,6 +71,8 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: lineItemCellIdentifier, for: indexPath) as! AnswerTableViewCell
         let answer = answers[indexPath.row]
         cell.txtAnswer.text = answer.answerText
+        
+        // set the appropriate icon depending on whether it's a correct or incorrect answer
         if answer.isCorrectAnswer {
             cell.btnCorrectOrIncorrectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
             cell.btnCorrectOrIncorrectAnswer.setTitleColor(UIColor.green, for: .normal)
@@ -83,22 +84,22 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
         }
 
         // only show the button for selecting an answer if we are in edit mode
-        if parentViewController!.isEditing {
-            cell.btnSelectAnswer.isHidden = false
-            if answer.isSelected {
-                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
-            } else {
-                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
-            }
-            cell.btnSelectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
-
-        } else {
-            cell.btnSelectAnswer.isHidden = true
-        }
+//        if parentViewController!.isEditing {
+//            cell.btnSelectAnswer.isHidden = false
+//            if answer.isSelected {
+//                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
+//            } else {
+//                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
+//            }
+//            cell.btnSelectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
+//
+//        } else {
+//            cell.btnSelectAnswer.isHidden = true
+//        }
         
         // store the row number in the button's tag so when user taps the button, we know which
         // row they've tapped
-        cell.btnSelectAnswer.tag = indexPath.row
+//        cell.btnSelectAnswer.tag = indexPath.row
         cell.answers = answers
         cell.delegate = self
 
@@ -134,6 +135,14 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell number: \(indexPath.row)")
+        answers[indexPath.row].isSelected = true
+        setDeleteButton()
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        NSLog("You deselected cell number: \(indexPath.row)")
+        answers[indexPath.row].isSelected = false
+        setDeleteButton()
     }
     
 }
@@ -299,6 +308,8 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         self.btnDone.isHidden = false
         
         answerTableView.reloadData()
+        
+        answerTableView.setEditing(true, animated: true)
     }
     
     @IBAction func btnDoneWasTapped(_ sender: Any) {
@@ -310,6 +321,9 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
             answer.isSelected = false
         }
         answerTableView.reloadData()
+        
+        answerTableView.setEditing(false, animated: true)
+
     }
     
     // MARK: - Navigation
