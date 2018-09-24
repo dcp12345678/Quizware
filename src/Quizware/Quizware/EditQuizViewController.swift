@@ -10,15 +10,34 @@ import UIKit
 
 class EditQuizViewController: UIViewController {
 
-    private var quiz: Quiz?
+    var quiz: Quiz?
+    var isNew = false
     
     @IBOutlet weak var txtQuizName: UITextField!
+    
+    @IBAction func btnNextWasTapped(_ sender: Any) {
+        if isNew {
+            // if it's a new quiz, then we take them to the screen to
+            // create the first question
+            performSegue(withIdentifier: "editQuestion", sender: self)
+        } else {
+            // it's not a new quiz, so just take them to the screen
+            // which shows them the exiting questions
+            performSegue(withIdentifier: "viewQuestions", sender: self)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Create New Quiz"
+        if let quiz = quiz {
+            self.title = "Edit Quiz"
+            txtQuizName.text = quiz.name
+        } else {
+            self.title = "Create New Quiz"
+            isNew = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,25 +48,21 @@ class EditQuizViewController: UIViewController {
 
     // MARK: - Navigation
 
-    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        if let ident = identifier {
-            if ident == "editQuestion" {
-                quiz = Helper.saveQuiz(quizId: nil, quizName: txtQuizName.text!.trimmingCharacters(in: .whitespacesAndNewlines))
-                return quiz != nil
-            }
-        }
-        return false
-    }
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        
+
+        quiz = Helper.saveQuiz(quizId: quiz == nil ? nil : quiz!.objectID, quizName: txtQuizName.text!.trimmingCharacters(in: .whitespacesAndNewlines))
+
         if segue.identifier == "editQuestion" {
             // store the quiz in the target controller
             (segue.destination as! EditQuestionViewController).quiz = quiz
-        }
+        } else if segue.identifier == "viewQuestions" {
+            // store the quiz in the target controller
+            (segue.destination as! ViewQuestionsViewController).quiz = quiz
+            (segue.destination as! ViewQuestionsViewController).questions = quiz!.mutableSetValue(forKey: "quizQuestion")
+}
 
     }
 

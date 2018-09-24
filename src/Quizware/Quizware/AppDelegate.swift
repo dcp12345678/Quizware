@@ -17,6 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        // load some dummy data (for now)
+        Helper.deleteQuizData()
+        Helper.loadQuizData(quizNumber: 1)
+        Helper.loadQuizData(quizNumber: 2)
+        Helper.loadQuizData(quizNumber: 3)
+
+        
         return true
     }
 

@@ -26,6 +26,22 @@ public extension UIView {
     }
 }
 
+public extension String {
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+}
+
 struct Helper {
     static var dummyQuizId: NSManagedObjectID?
     
@@ -77,7 +93,7 @@ struct Helper {
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        var quizAnswer: QuizAnswer = QuizAnswer()
+        var quizAnswer = QuizAnswer()
         
         if let answerId = answerId {
             // fetch the existing quiz answer so we can update it
@@ -311,5 +327,4 @@ struct Helper {
         stackView.insertSubview(view, at: 0)
         view.pin(to: stackView)
     }
-
 }
