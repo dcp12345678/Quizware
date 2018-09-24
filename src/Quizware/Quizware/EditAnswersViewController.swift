@@ -29,27 +29,6 @@ class AnswerTableViewCell: UITableViewCell, UITextViewDelegate {
         let index = textView.tag
         answers![index].answerText = textView.text
     }
-
-//    @IBAction func btnSelectAnswerWasTapped(_ sender: Any) {
-//        if let btn = sender as? UIButton {
-//            NSLog("row number of selected row is \(btn.tag)")
-//            let answer = answers![btn.tag]
-//
-//            // toggle selection state, then set the proper button icon to show whether the
-//            // answer is selected or unselected (open circle means not selected, checked
-//            // circle means selected)
-//            answer.isSelected = !answer.isSelected
-//            if (answer.isSelected) {
-//                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
-//            } else {
-//                btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
-//            }
-//
-//            // either enable or disable the delete button depending on whether any answers
-//            // are selected
-//            delegate?.setDeleteButton()
-//        }
-//    }
 }
 
 class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, AnswerTableViewCellDelegate {
@@ -83,20 +62,6 @@ class AnswerTableView: UITableView, UITableViewDataSource, UITableViewDelegate, 
             cell.btnCorrectOrIncorrectAnswer.setTitle(String.fontAwesomeIcon(name: .remove), for: .normal)
         }
 
-        // only show the button for selecting an answer if we are in edit mode
-//        if parentViewController!.isEditing {
-//            cell.btnSelectAnswer.isHidden = false
-//            if answer.isSelected {
-//                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
-//            } else {
-//                cell.btnSelectAnswer.setTitle(String.fontAwesomeIcon(name: .circleO), for: .normal)
-//            }
-//            cell.btnSelectAnswer.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
-//
-//        } else {
-//            cell.btnSelectAnswer.isHidden = true
-//        }
-        
         // store the row number in the button's tag so when user taps the button, we know which
         // row they've tapped
 //        cell.btnSelectAnswer.tag = indexPath.row
@@ -157,7 +122,8 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
-
+    @IBOutlet weak var questionHeightLayoutContraint: NSLayoutConstraint!
+    
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         // don't show the question in landscape mode since it takes up too much room
         if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
@@ -206,6 +172,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         // Do any additional setup after loading the view.
         if let questionText = quizQuestion?.questionText {
             txtQuestion.text = questionText
+            questionHeightLayoutContraint.constant = CGFloat(questionText.height(withConstrainedWidth: self.view.frame.size.width, font: txtQuestion.font!)) + 20
             
             if let answers = Helper.getQuizAnswers(forQuizQuestionId: quizQuestion!.objectID) {
                 answerTableView.answers = [QuizAnswer]()
@@ -243,7 +210,6 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
         else {
             txtQuestion.isHidden = false
         }
-
     }
     
 //    @objc func cancelWasTapped() {

@@ -45,6 +45,7 @@ class ViewQuestionsViewController: UITableViewController {
         // add a button for them to add another question
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                                  action: #selector(addQuestionWasTapped))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneWasTapped))
 
         sortedQuestions = questions?.allObjects.sorted { (a, b) -> Bool in
             let a = a as! QuizQuestion
@@ -68,6 +69,10 @@ class ViewQuestionsViewController: UITableViewController {
 
     @objc func addQuestionWasTapped() {
         performSegue(withIdentifier: "addQuestion", sender: self)
+    }
+    
+    @objc func doneWasTapped() {
+        performSegue(withIdentifier: "goToMainScreen", sender: self)
     }
 
     override func didReceiveMemoryWarning() {
