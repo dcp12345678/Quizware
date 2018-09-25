@@ -38,6 +38,19 @@ class MainViewController: UITableViewController {
         performSegue(withIdentifier: "editQuiz", sender: self)
     }
     
+    @IBAction func btnDeleteWasTapped(_ sender: Any) {
+        let row = (sender as! UIButton).tag
+        expandOrCollapseCell(at: IndexPath(row: row, section: 0), targetState: .Collapsed)
+        selectedQuiz = quizes?[row]
+        Helper.deleteQuizData(quizId: selectedQuiz!.objectID)
+        
+        // need to fetch quizes since we just deleted a quiz
+        quizes = Helper.fetchQuizData()
+        
+        // refresh the table view so deleted quiz is removed
+        self.quizesTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

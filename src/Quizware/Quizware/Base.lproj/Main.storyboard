@@ -107,6 +107,9 @@
                                                                     <state key="normal" title="Delete">
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="btnDeleteWasTapped:" destination="L3G-n8-8Rk" eventType="touchUpInside" id="dhd-3v-cKm"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                         </stackView>

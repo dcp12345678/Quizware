@@ -62,7 +62,29 @@ struct Helper {
             print("Could not delete. \(error), \(error.userInfo)")
         }
     }
-    
+
+    static func deleteQuizData(quizId: NSManagedObjectID) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<Quiz>(entityName: "Quiz")
+        fetchRequest.predicate = NSPredicate(format: "self == %@", quizId)
+        
+        do {
+            let resultdata = try managedContext.fetch(fetchRequest)
+            if let objectToDelete = resultdata.first {
+                managedContext.delete(objectToDelete)
+                try managedContext.save() // Save the delete action
+            }
+        } catch let error as NSError {
+            print("Could not delete. \(error), \(error.userInfo)")
+        }
+    }
+
     static func deleteQuizAnswer(answerId: NSManagedObjectID?, parentController: UIViewController? = nil) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate, let answerId = answerId else {
@@ -267,6 +289,9 @@ struct Helper {
         
         do {
             let quizes = try managedContext.fetch(fetchRequest)
+            if quizes.count == 0 {
+                return quizes
+            }
             let quizQuestions = quizes[0].mutableSetValue(forKey: "quizQuestion")
             let cnt = quizQuestions.count
             print("cnt = \(cnt)")
