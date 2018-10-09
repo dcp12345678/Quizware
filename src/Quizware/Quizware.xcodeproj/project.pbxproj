@@ -29,6 +29,7 @@
 		8AE3491F200E369900DF9A64 /* FontAwesomeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34914200E369900DF9A64 /* FontAwesomeTabBarItem.swift */; };
 		8AE34920200E369900DF9A64 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34915200E369900DF9A64 /* FontAwesome.swift */; };
 		8AE34921200E369900DF9A64 /* FontAwesomeBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE34916200E369900DF9A64 /* FontAwesomeBarButtonItem.swift */; };
+		8AE41B39215C00220089995D /* TakeQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE41B38215C00220089995D /* TakeQuizViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		8AE34914200E369900DF9A64 /* FontAwesomeTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeTabBarItem.swift; sourceTree = "<group>"; };
 		8AE34915200E369900DF9A64 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		8AE34916200E369900DF9A64 /* FontAwesomeBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesomeBarButtonItem.swift; sourceTree = "<group>"; };
+		8AE41B38215C00220089995D /* TakeQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeQuizViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				8A0F3FDC201170DB00C55E80 /* EditQuestionViewController.swift */,
 				8A0F3FDE20117A2900C55E80 /* EditAnswersViewController.swift */,
 				8A004D4420336BED0078C66D /* ViewQuestionsViewController.swift */,
+				8AE41B38215C00220089995D /* TakeQuizViewController.swift */,
 			);
 			path = Quizware;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				8A0F3FDD201170DB00C55E80 /* EditQuestionViewController.swift in Sources */,
 				8AA125252007B90E006D92A1 /* MainViewController.swift in Sources */,
 				8AE34917200E369900DF9A64 /* FontAwesomeImageRepresentable.swift in Sources */,
+				8AE41B39215C00220089995D /* TakeQuizViewController.swift in Sources */,
 				8AA125232007B90E006D92A1 /* AppDelegate.swift in Sources */,
 				8AE34919200E369900DF9A64 /* FontAwesomeImageView.swift in Sources */,
 				8AE3491D200E369900DF9A64 /* Enum.swift in Sources */,

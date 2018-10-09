@@ -175,10 +175,7 @@ class EditAnswersViewController: UIViewController, AnswerTableViewCellDelegate, 
             questionHeightLayoutContraint.constant = CGFloat(questionText.height(withConstrainedWidth: self.view.frame.size.width, font: txtQuestion.font!)) + 20
             
             if let answers = Helper.getQuizAnswers(forQuizQuestionId: quizQuestion!.objectID) {
-                answerTableView.answers = [QuizAnswer]()
-                for case let answer as QuizAnswer in answers {
-                    answerTableView.answers.append(answer)
-                }
+                answerTableView.answers = answers
             }
         }
      

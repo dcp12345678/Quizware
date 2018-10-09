@@ -31,7 +31,11 @@ class MainViewController: UITableViewController {
     var selectedQuiz: NSManagedObject? = nil
 
     @IBOutlet var quizesTableView: UITableView!
-
+    
+    @IBAction func btnTakeQuizWasTapped(_ sender: Any) {
+        selectedQuiz = quizes?[(sender as! UIButton).tag]
+        performSegue(withIdentifier: "takeQuiz", sender: self)
+    }
     
     @IBAction func btnEditWasTapped(_ sender: Any) {
         selectedQuiz = quizes?[(sender as! UIButton).tag]
@@ -67,11 +71,15 @@ class MainViewController: UITableViewController {
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                                  action: #selector(addOnPress))
+
+        // don't show back button
+        self.navigationItem.setHidesBackButton(true, animated:true)
+
     }
 
     @objc func addOnPress() {
         //Helper.showMessage(parentController: self, message: "add button tapped!")
-        performSegue(withIdentifier: "editQuiz", sender: self)
+        performSegue(withIdentifier: "newQuiz", sender: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -209,6 +217,13 @@ class MainViewController: UITableViewController {
             if case let quiz as Quiz = selectedQuiz {
                 (segue.destination as! EditQuizViewController).quiz = quiz
             }
+        } else if segue.identifier == "takeQuiz" {
+            // store the quiz in the target controller
+            if case let quiz as Quiz = selectedQuiz {
+                (segue.destination as! TakeQuizViewController).quiz = quiz
+            }
+        } else if segue.identifier == "newQuiz" {
+            
         }
     }
 

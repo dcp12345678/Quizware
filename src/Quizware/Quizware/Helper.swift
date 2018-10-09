@@ -131,6 +131,7 @@ struct Helper {
         } else {
             // create a new quiz answer
             quizAnswer = QuizAnswer(context: managedContext)
+            quizAnswer.createDate = Date()
             
             // it's a new quiz answer, so we need to add it to the quiz question
             
@@ -181,6 +182,7 @@ struct Helper {
         } else {
             // create a new quiz question
             quizQuestion = QuizQuestion(context: managedContext)
+            quizQuestion.createDate = Date()
         }
         quizQuestion.questionText = questionText
         
@@ -255,6 +257,7 @@ struct Helper {
         
         let quiz = Quiz(context: managedContext)
         quiz.name = "sample quiz " + String(quizNumber)
+        quiz.createDate = Date()
         
         for i in 0..<5 {
             let quizQuestion = QuizQuestion(context: managedContext)
@@ -266,6 +269,7 @@ struct Helper {
             for i in 0..<4 {
                 let quizAnswer = QuizAnswer(context: managedContext)
                 quizAnswer.answerText = "Answer " + String(i)
+                quizAnswer.createDate = Date()
                 quizQuestion.addToQuizAnswer(quizAnswer)
             }
         }
@@ -325,7 +329,7 @@ struct Helper {
 //        quizQuestion.addToQuizAnswer(quizAnswer)
     }
 
-    static func getQuizAnswers(forQuizQuestionId quizQuestionId: NSManagedObjectID) -> NSMutableSet? {
+    static func getQuizAnswers(forQuizQuestionId quizQuestionId: NSManagedObjectID) -> [QuizAnswer]? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
@@ -334,7 +338,17 @@ struct Helper {
         let managedContext = appDelegate.persistentContainer.viewContext
         let quizQuestion = managedContext.object(with: quizQuestionId)
         let quizAnswers = quizQuestion.mutableSetValue(forKey: "quizAnswer")
-        return quizAnswers
+        
+        // sort answers by created date
+        var sortedAnswers = quizAnswers.allObjects as! [QuizAnswer]
+        sortedAnswers = sortedAnswers.sorted { (a, b) -> Bool in
+            if a.createDate != nil && b.createDate != nil {
+                return a.createDate! < b.createDate!
+            }
+            return true
+        }
+
+        return sortedAnswers
     }
 
     static func showMessage(parentController: UIViewController, message: String, title: String = "Info") {
