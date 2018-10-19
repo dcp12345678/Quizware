@@ -10,11 +10,13 @@ import UIKit
 
 protocol PickAnswerTableViewCellDelegate {
     func loadQuestion()
+    func getQuestion() -> QuizQuestion?
+    func getQuizResult() -> QuizResult?
+    func getNumberOfQuestions() -> Int
     var questionIndex: Int { get set }
 }
 
 class PickAnswerTableViewCell: UITableViewCell {
-
     @IBOutlet weak var lblAnswer: UILabel!
 }
 
@@ -23,12 +25,32 @@ class PickAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelega
     var answers: [QuizAnswer]?
     let pickAnswerCellIdentifier = "PickAnswer"
     var pickAnswerDelegate: PickAnswerTableViewCellDelegate?
+    var parentViewController: UIViewController?
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let answers = answers {
             return answers.count
         }
         return 0
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: pickAnswerCellIdentifier, for: indexPath) as! PickAnswerTableViewCell
+
+        if let pickAnswerDelegate = pickAnswerDelegate {
+            // see if there's an existing quiz question result for this question
+            if let quizQuestionResults = pickAnswerDelegate.getQuizResult()!.quizQuestionResult {
+                let quizQuestionResultArr = quizQuestionResults.allObjects as! [QuizQuestionResult]
+                if let quizQuestionResult = quizQuestionResultArr.first(
+                        where: { $0.quizQuestion?.objectID == pickAnswerDelegate.getQuestion()?.objectID }) {
+                    // if this is the answer they selected when previously visiting this question, then
+                    // mark the answer as selected
+                    if answers![indexPath.row].answerText == quizQuestionResult.answerText {
+                        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+                    }
+                }
+            }
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,8 +69,43 @@ class PickAnswerTableView: UITableView, UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if var pickAnswerDelegate = pickAnswerDelegate {
+            // store the quiz question result so we can record the answer they chose
+            // for this question
+
+            let selectedAnswer = answers![indexPath.row]
+
+            // see if there's an existing quiz question result for this question
+            var quizQuestionResult: QuizQuestionResult?
+            if let quizQuestionResults = pickAnswerDelegate.getQuizResult()!.quizQuestionResult {
+                let quizQuestionResultArr = quizQuestionResults.allObjects as! [QuizQuestionResult]
+                quizQuestionResult = quizQuestionResultArr.first(
+                    where: { $0.quizQuestion?.objectID == pickAnswerDelegate.getQuestion()?.objectID })
+            }
+
+            Helper.saveQuizQuestionResult(
+                quizQuestionResultId: quizQuestionResult?.objectID,
+                quizResult: pickAnswerDelegate.getQuizResult()!,
+                quizQuestion: pickAnswerDelegate.getQuestion()!,
+                answerText: selectedAnswer.answerText!,
+                isCorrectAnswer: selectedAnswer.isCorrectAnswer)
             pickAnswerDelegate.questionIndex = pickAnswerDelegate.questionIndex + 1
-            pickAnswerDelegate.loadQuestion()
+            
+            if pickAnswerDelegate.questionIndex == pickAnswerDelegate.getNumberOfQuestions() {
+                let lastQuestionAlert = UIAlertController(title: "Last Question", message: "This is the last question for the quiz. Are you ready to submit your answers?", preferredStyle: UIAlertControllerStyle.alert)
+                
+                lastQuestionAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+                    Helper.showQuizResults(parentViewController: self.parentViewController!, quizResultId: pickAnswerDelegate.getQuizResult()!.objectID)
+                }))
+                
+                lastQuestionAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+                    print("Handle No Logic here")
+                }))
+                
+                parentViewController!.present(lastQuestionAlert, animated: true, completion: nil)
+            }
+            else {
+                pickAnswerDelegate.loadQuestion()
+            }
         }
     }
 }
@@ -58,6 +115,7 @@ class TakeQuizViewController: UIViewController, PickAnswerTableViewCellDelegate 
     var quiz: Quiz?
     var questionIndex = 0
     var questions: [QuizQuestion]?
+    var quizResult: QuizResult?
     @IBOutlet weak var tblAnswers: UITableView!
     @IBOutlet weak var lblQuestion: UILabel!
     @IBOutlet weak var btnPreviousQuestion: UIButton!
@@ -75,7 +133,6 @@ class TakeQuizViewController: UIViewController, PickAnswerTableViewCellDelegate 
         btnNextQuestion.setTitle(String.fontAwesomeIcon(name: .arrowCircleRight), for: .normal)
         btnNextQuestion.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
 
-
         questions = (quiz?.mutableSetValue(forKey: "quizQuestion").allObjects as! [QuizQuestion])
         questions = questions!.sorted { (a, b) -> Bool in
             if a.createDate != nil && b.createDate != nil {
@@ -87,9 +144,14 @@ class TakeQuizViewController: UIViewController, PickAnswerTableViewCellDelegate 
         answerTableView.delegate = answerTableView
         answerTableView.pickAnswerDelegate = self
         answerTableView.dataSource = answerTableView
+        answerTableView.parentViewController = self
 
         answerTableView.estimatedRowHeight = 100.0
         answerTableView.rowHeight = UITableViewAutomaticDimension
+
+        // create the QuizResult, which will store the fact that the user took this quiz
+        quizResult = Helper.saveQuizResult(quiz: quiz!)
+        print(quizResult?.objectID)
 
         loadQuestion()
         setButtons()
@@ -119,11 +181,26 @@ class TakeQuizViewController: UIViewController, PickAnswerTableViewCellDelegate 
                     answerTableView.endUpdates()
 
                 }
-
             }
+            setButtons()
         }
     }
 
+    func getQuestion() -> QuizQuestion? {
+        if let questions = questions {
+            return questions[questionIndex]
+        }
+        return nil
+    }
+
+    func getQuizResult() -> QuizResult? {
+        return quizResult
+    }
+
+    func getNumberOfQuestions() -> Int {
+        return questions?.count ?? 0
+    }
+    
     @IBAction func btnNextQuestionWasTapped(_ sender: Any) {
         questionIndex = questionIndex + 1
         loadQuestion()

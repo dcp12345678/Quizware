@@ -3,8 +3,8 @@
     <entity name="Quiz" representedClassName="Quiz" syncable="YES" codeGenerationType="class">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="quizHistory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizHistory" inverseName="quiz" inverseEntity="QuizHistory" syncable="YES"/>
         <relationship name="quizQuestion" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizQuestion" inverseName="quiz" inverseEntity="QuizQuestion" syncable="YES"/>
+        <relationship name="quizResult" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizResult" inverseName="quiz" inverseEntity="QuizResult" syncable="YES"/>
     </entity>
     <entity name="QuizAnswer" representedClassName="QuizAnswer" syncable="YES" codeGenerationType="class">
         <attribute name="answerText" optional="YES" attributeType="String" syncable="YES"/>
@@ -13,24 +13,30 @@
         <attribute name="isSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="quizQuestion" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="quizAnswer" inverseEntity="QuizQuestion" syncable="YES"/>
     </entity>
-    <entity name="QuizHistory" representedClassName="QuizHistory" syncable="YES" codeGenerationType="class">
-        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="quizHistory" inverseEntity="Quiz" syncable="YES"/>
-    </entity>
     <entity name="QuizQuestion" representedClassName="QuizQuestion" syncable="YES" codeGenerationType="class">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="questionText" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="quizQuestion" inverseEntity="Quiz" syncable="YES"/>
         <relationship name="quizAnswer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizAnswer" inverseName="quizQuestion" inverseEntity="QuizAnswer" syncable="YES"/>
-        <relationship name="quizQuestionHistory" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="QuizQuestionHistory" inverseName="quizQuestion" inverseEntity="QuizQuestionHistory" syncable="YES"/>
+        <relationship name="quizQuestionResult" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizQuestionResult" inverseName="quizQuestion" inverseEntity="QuizQuestionResult" syncable="YES"/>
     </entity>
-    <entity name="QuizQuestionHistory" representedClassName="QuizQuestionHistory" syncable="YES" codeGenerationType="class">
-        <relationship name="quizQuestion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="quizQuestionHistory" inverseEntity="QuizQuestion" syncable="YES"/>
+    <entity name="QuizQuestionResult" representedClassName="QuizQuestionResult" syncable="YES" codeGenerationType="class">
+        <attribute name="answerText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isCorrectAnswer" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="quizQuestion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="quizQuestionResult" inverseEntity="QuizQuestion" syncable="YES"/>
+        <relationship name="quizResult" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizResult" inverseName="quizQuestionResult" inverseEntity="QuizResult" syncable="YES"/>
+    </entity>
+    <entity name="QuizResult" representedClassName="QuizResult" syncable="YES" codeGenerationType="class">
+        <attribute name="dateTaken" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="quizResult" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="quizQuestionResult" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuizQuestionResult" inverseName="quizResult" inverseEntity="QuizQuestionResult" syncable="YES"/>
     </entity>
     <elements>
         <element name="Quiz" positionX="-54" positionY="24" width="128" height="105"/>
         <element name="QuizAnswer" positionX="-45" positionY="117" width="128" height="120"/>
-        <element name="QuizHistory" positionX="-45" positionY="108" width="128" height="60"/>
         <element name="QuizQuestion" positionX="-54" positionY="153" width="128" height="120"/>
-        <element name="QuizQuestionHistory" positionX="-36" positionY="117" width="128" height="60"/>
+        <element name="QuizQuestionResult" positionX="-36" positionY="117" width="128" height="120"/>
+        <element name="QuizResult" positionX="-45" positionY="135" width="128" height="90"/>
     </elements>
 </model>

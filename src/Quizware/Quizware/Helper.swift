@@ -22,7 +22,7 @@ public extension UIView {
             trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 8),
             topAnchor.constraint(equalTo: view.topAnchor, constant: -8),
             bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 8)
-            ])
+        ])
     }
 }
 
@@ -30,32 +30,32 @@ public extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
-        
+
         return ceil(boundingBox.height)
     }
-    
+
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
-        
+
         return ceil(boundingBox.width)
     }
 }
 
 struct Helper {
     static var dummyQuizId: NSManagedObjectID?
-    
+
     static func deleteQuizData() {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
+
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Quiz")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
+
         do {
             try managedContext.execute(deleteRequest)
         } catch let error as NSError {
@@ -68,12 +68,12 @@ struct Helper {
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
+
         let fetchRequest = NSFetchRequest<Quiz>(entityName: "Quiz")
         fetchRequest.predicate = NSPredicate(format: "self == %@", quizId)
-        
+
         do {
             let resultdata = try managedContext.fetch(fetchRequest)
             if let objectToDelete = resultdata.first {
@@ -90,9 +90,9 @@ struct Helper {
             UIApplication.shared.delegate as? AppDelegate, let answerId = answerId else {
                 return
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
+
         if let objToDelete = managedContext.object(with: answerId) as? QuizAnswer {
 
             // delete the quiz question from persistence
@@ -107,16 +107,16 @@ struct Helper {
             }
         }
     }
-    
+
     static func saveQuizAnswer(answerId: NSManagedObjectID?, answerText: String, isCorrectAnswer: Bool, quizQuestionId: NSManagedObjectID, parentController: UIViewController? = nil) -> QuizAnswer? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
         var quizAnswer = QuizAnswer()
-        
+
         if let answerId = answerId {
             // fetch the existing quiz answer so we can update it
             if let obj = managedContext.object(with: answerId) as? QuizAnswer {
@@ -132,16 +132,16 @@ struct Helper {
             // create a new quiz answer
             quizAnswer = QuizAnswer(context: managedContext)
             quizAnswer.createDate = Date()
-            
+
             // it's a new quiz answer, so we need to add it to the quiz question
-            
+
             // get the associated quiz question for the quiz answer
             let quizQuestion = managedContext.object(with: quizQuestionId) as! QuizQuestion
-            
+
             // add the quiz answer to the quiz question
             quizQuestion.addToQuizAnswer(quizAnswer)
         }
-        
+
         quizAnswer.answerText = answerText
         quizAnswer.isCorrectAnswer = isCorrectAnswer
         quizAnswer.isSelected = false
@@ -158,16 +158,16 @@ struct Helper {
             return nil
         }
     }
-    
+
     static func saveQuizQuestion(questionId: NSManagedObjectID?, quizId: NSManagedObjectID, questionText: String, parentController: UIViewController? = nil) -> QuizQuestion? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
         var quizQuestion: QuizQuestion = QuizQuestion()
-        
+
         if let questionId = questionId {
             // fetch the existing quiz question so we can update it
             if let obj = managedContext.object(with: questionId) as? QuizQuestion {
@@ -185,17 +185,17 @@ struct Helper {
             quizQuestion.createDate = Date()
         }
         quizQuestion.questionText = questionText
-        
+
         if questionId == nil {
             // it's a new quiz question, so we need to add it to the quiz
-            
+
             // get the associated quiz for the quiz question
             let quiz = managedContext.object(with: quizId) as! Quiz
 
             // add the quiz question to the quiz
             quiz.addToQuizQuestion(quizQuestion)
         }
-        
+
         // save the quiz question to persistence
         do {
             try managedContext.save()
@@ -208,7 +208,118 @@ struct Helper {
             return nil
         }
     }
-    
+
+    static func saveQuizResult(quiz: Quiz, parentController: UIViewController? = nil) -> QuizResult? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let quizResult: QuizResult = QuizResult(context: managedContext)
+        quizResult.dateTaken = Date()
+        quizResult.quiz = quiz
+
+        // save the quiz result to persistence
+        do {
+            try managedContext.save()
+            return quizResult
+        } catch let error as NSError {
+            if let parentController = parentController {
+                showMessage(parentController: parentController, message: "Could not save the quiz result!")
+            }
+            print("Could not save the quiz result!. \(error), \(error.userInfo)")
+            return nil
+        }
+    }
+
+    static func saveQuizQuestionResult(
+        quizQuestionResultId: NSManagedObjectID?,
+        quizResult: QuizResult,
+        quizQuestion: QuizQuestion,
+        answerText: String,
+        isCorrectAnswer: Bool,
+        parentController: UIViewController? = nil) -> QuizQuestionResult? {
+
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        var quizQuestionResult = QuizQuestionResult()
+
+        if let quizQuestionResultId = quizQuestionResultId {
+            // fetch the existing quiz question result so we can update it
+            if let obj = managedContext.object(with: quizQuestionResultId) as? QuizQuestionResult {
+                quizQuestionResult = obj
+            } else {
+                if let parentController = parentController {
+                    showMessage(parentController: parentController, message: "Could not find existing quiz question result!")
+                }
+                print("Could not find existing quiz question result.")
+                return nil
+            }
+        } else {
+            // create a new quiz question result
+            quizQuestionResult = QuizQuestionResult(context: managedContext)
+            quizQuestionResult.createDate = Date()
+            quizQuestion.addToQuizQuestionResult(quizQuestionResult)
+            quizResult.addToQuizQuestionResult(quizQuestionResult)
+        }
+
+        quizQuestionResult.isCorrectAnswer = isCorrectAnswer
+        quizQuestionResult.answerText = answerText
+
+        // save the quiz question result to persistence
+        do {
+            try managedContext.save()
+            return quizQuestionResult
+        } catch let error as NSError {
+            if let parentController = parentController {
+                showMessage(parentController: parentController, message: "Could not save the quiz result!")
+            }
+            print("Could not save the quiz result!. \(error), \(error.userInfo)")
+            return nil
+        }
+    }
+
+    static func showQuizResults(parentViewController: UIViewController, quizResultId: NSManagedObjectID) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        if let quizResult = managedContext.object(with: quizResultId) as? QuizResult {
+            var numCorrect = 0
+            var totalQuestions = 0
+            for case let quizQuestionResult as QuizQuestionResult in quizResult.quizQuestionResult! {
+                numCorrect += quizQuestionResult.isCorrectAnswer ? 1 : 0
+                totalQuestions = totalQuestions + 1
+            }
+
+            var grade = 0
+            if totalQuestions != 0 {
+                let g = Double(numCorrect) / Double(totalQuestions)
+                grade = Int(round(g * 100))
+            }
+            
+            let quizResultsAlert = UIAlertController(title: "Results",
+                                                     message: "You got \(numCorrect) correct out of \(totalQuestions) total questions for a grade of \(grade)",
+                                                     preferredStyle: UIAlertControllerStyle.alert)
+            
+            quizResultsAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                parentViewController.performSegue(withIdentifier: "goToMainScreen", sender: parentViewController)
+            }))
+            
+            parentViewController.present(quizResultsAlert, animated: true, completion: { () in
+            })
+        }
+    }
+
     static func saveQuiz(quizId: NSManagedObjectID?, quizName: String, parentController: UIViewController? = nil) -> Quiz? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -246,19 +357,19 @@ struct Helper {
             return nil
         }
     }
-    
+
     static func loadQuizData(quizNumber: Int) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
+
         let quiz = Quiz(context: managedContext)
         quiz.name = "sample quiz " + String(quizNumber)
         quiz.createDate = Date()
-        
+
         for i in 0..<5 {
             let quizQuestion = QuizQuestion(context: managedContext)
             quizQuestion.questionText = "This is sample question \(i) for the quiz"
@@ -266,14 +377,15 @@ struct Helper {
             quiz.addToQuizQuestion(quizQuestion)
             dummyQuizId = quiz.objectID
 
-            for i in 0..<4 {
+            for j in 0..<4 {
                 let quizAnswer = QuizAnswer(context: managedContext)
-                quizAnswer.answerText = "Answer " + String(i)
+                quizAnswer.answerText = "Answer " + String(j)
                 quizAnswer.createDate = Date()
+                quizAnswer.isCorrectAnswer = i == j
                 quizQuestion.addToQuizAnswer(quizAnswer)
             }
         }
-        
+
         do {
             try managedContext.save()
             dummyQuizId = quiz.objectID
@@ -281,16 +393,16 @@ struct Helper {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
+
     static func fetchQuizData() -> [NSManagedObject]? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Quiz")
-        
+
         do {
             let quizes = try managedContext.fetch(fetchRequest)
             if quizes.count == 0 {
@@ -306,7 +418,7 @@ struct Helper {
             return nil
         }
     }
-    
+
     static func getQuizQuestions(forQuizId quizId: NSManagedObjectID) -> NSMutableSet? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -317,7 +429,7 @@ struct Helper {
         let quiz = managedContext.object(with: quizId)
         let quizQuestions = quiz.mutableSetValue(forKey: "quizQuestion")
         return quizQuestions
-        
+
 //        let quiz = Quiz()
 //        quiz.name = "A Test Quiz"
 //        var quizQuestion = QuizQuestion()
@@ -334,11 +446,11 @@ struct Helper {
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
         let quizQuestion = managedContext.object(with: quizQuestionId)
         let quizAnswers = quizQuestion.mutableSetValue(forKey: "quizAnswer")
-        
+
         // sort answers by created date
         var sortedAnswers = quizAnswers.allObjects as! [QuizAnswer]
         sortedAnswers = sortedAnswers.sorted { (a, b) -> Bool in
@@ -360,7 +472,7 @@ struct Helper {
         controller.addAction(okAction)
         parentController.present(controller, animated: true, completion: nil)
     }
-    
+
     static func pinBackground(_ view: UIView, to stackView: UIStackView) {
         view.translatesAutoresizingMaskIntoConstraints = false
         stackView.insertSubview(view, at: 0)
