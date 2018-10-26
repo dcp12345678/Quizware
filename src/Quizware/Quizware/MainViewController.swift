@@ -13,7 +13,7 @@ class QuizTableViewCell: UITableViewCell {
     @IBOutlet weak var rootStackView: UIStackView!
     @IBOutlet weak var lblTestName: UILabel!
     @IBOutlet weak var lblNumberOfQuestions: UILabel!
-    @IBOutlet weak var lblSuccessRate: UILabel!
+    @IBOutlet weak var lblAverageScore: UILabel!
     @IBOutlet weak var detailStackView: UIStackView!
     var isExpanded: Bool = false
 
@@ -31,30 +31,35 @@ class MainViewController: UITableViewController {
     var selectedQuiz: NSManagedObject? = nil
 
     @IBOutlet var quizesTableView: UITableView!
-    
+
     @IBAction func btnTakeQuizWasTapped(_ sender: Any) {
         selectedQuiz = quizes?[(sender as! UIButton).tag]
         performSegue(withIdentifier: "takeQuiz", sender: self)
     }
-    
+
     @IBAction func btnEditWasTapped(_ sender: Any) {
         selectedQuiz = quizes?[(sender as! UIButton).tag]
         performSegue(withIdentifier: "editQuiz", sender: self)
     }
-    
+
     @IBAction func btnDeleteWasTapped(_ sender: Any) {
         let row = (sender as! UIButton).tag
         expandOrCollapseCell(at: IndexPath(row: row, section: 0), targetState: .Collapsed)
         selectedQuiz = quizes?[row]
         Helper.deleteQuizData(quizId: selectedQuiz!.objectID)
-        
+
         // need to fetch quizes since we just deleted a quiz
-        quizes = Helper.fetchQuizData()
-        
+        quizes = Helper.getAllQuizes()
+
         // refresh the table view so deleted quiz is removed
         self.quizesTableView.reloadData()
     }
-    
+
+    @IBAction func btnViewHistoryWasTapped(_ sender: Any) {
+        selectedQuiz = quizes?[(sender as! UIButton).tag]
+        performSegue(withIdentifier: "viewQuizResults", sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -73,7 +78,7 @@ class MainViewController: UITableViewController {
                                                                  action: #selector(addOnPress))
 
         // don't show back button
-        self.navigationItem.setHidesBackButton(true, animated:true)
+        self.navigationItem.setHidesBackButton(true, animated: true)
 
     }
 
@@ -85,13 +90,15 @@ class MainViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // need to fetch quizes
-        quizes = Helper.fetchQuizData()
+        // fetch the quizes if necessary
+        if quizes == nil {
+            quizes = Helper.getAllQuizes()
 
-        self.quizesTableView.reloadData()
+            self.quizesTableView.reloadData()
 
-        quizesTableView.beginUpdates()
-        quizesTableView.endUpdates()
+            quizesTableView.beginUpdates()
+            quizesTableView.endUpdates()
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,6 +109,25 @@ class MainViewController: UITableViewController {
         if let quizQuestions = rowData?.mutableSetValue(forKey: "quizQuestion") {
             cell.lblNumberOfQuestions.text = String(quizQuestions.count)
         }
+        
+        if let quiz = rowData as? Quiz {
+            // calculate the average score for this quiz, which is just the average of
+            // all the scores for the quiz
+            var scoreSum = 0.0
+            var numScores = 0
+            for case let quizResult as QuizResult in quiz.quizResult! {
+                let score = Helper.calcQuizScore(forQuizResult: quizResult, roundScore: false)
+                scoreSum += score
+                numScores += 1
+            }
+            if numScores > 0 {
+                let averageScore = Int(round(scoreSum / Double(numScores)))
+                cell.lblAverageScore.text = String(averageScore)
+            } else {
+                cell.lblAverageScore.text = "N/A"
+            }
+        }
+        
         cell.contentView.tag = indexPath.row
 
         let gesture = UITapGestureRecognizer(target: self, action: #selector (self.cellViewTapped(_:)))
@@ -196,7 +222,7 @@ class MainViewController: UITableViewController {
                 UIView.animate(withDuration: 0.1) {
                     cell.detailStackView.isHidden = false;
                 }
-                
+
             } else {
                 // collapse the cell's detail view
                 cell.detailStackView.isHidden = true;
@@ -210,7 +236,7 @@ class MainViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editQuiz" {
             // store the quiz in the target controller
@@ -223,7 +249,15 @@ class MainViewController: UITableViewController {
                 (segue.destination as! TakeQuizViewController).quiz = quiz
             }
         } else if segue.identifier == "newQuiz" {
-            
+
+        } else if segue.identifier == "viewQuizResults" {
+            if case let quiz as Quiz = selectedQuiz {
+                // re-fetch the quiz from persistence so we can get its associated quiz
+                // results
+                if let quiz = Helper.getQuiz(forQuizId: quiz.objectID) as? Quiz {
+                    (segue.destination as! ViewQuizResultsViewController).quiz = quiz
+                }
+            }
         }
     }
 

@@ -285,6 +285,26 @@ struct Helper {
         }
     }
 
+    static func calcQuizScore(forQuizResult quizResult: QuizResult, roundScore: Bool = false) -> Double {
+        var numCorrect = 0
+        var totalQuestions = 0
+
+        for case let quizQuestionResult as QuizQuestionResult in quizResult.quizQuestionResult! {
+            numCorrect += quizQuestionResult.isCorrectAnswer ? 1 : 0
+            totalQuestions = totalQuestions + 1
+        }
+        
+        if totalQuestions == 0 {
+            return 0
+        }
+        var score = 0.0
+        if totalQuestions != 0 {
+            let s = (Double(numCorrect) / Double(totalQuestions)) * 100
+            score = roundScore ? Double(round(s)) : s
+        }
+        return score
+    }
+    
     static func showQuizResults(parentViewController: UIViewController, quizResultId: NSManagedObjectID) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -301,14 +321,10 @@ struct Helper {
                 totalQuestions = totalQuestions + 1
             }
 
-            var grade = 0
-            if totalQuestions != 0 {
-                let g = Double(numCorrect) / Double(totalQuestions)
-                grade = Int(round(g * 100))
-            }
+            let score = Int(calcQuizScore(forQuizResult: quizResult))
             
             let quizResultsAlert = UIAlertController(title: "Results",
-                                                     message: "You got \(numCorrect) correct out of \(totalQuestions) total questions for a grade of \(grade)",
+                                                     message: "You got \(numCorrect) correct out of \(totalQuestions) total questions for a score of \(score).",
                                                      preferredStyle: UIAlertControllerStyle.alert)
             
             quizResultsAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
@@ -377,7 +393,7 @@ struct Helper {
             quiz.addToQuizQuestion(quizQuestion)
             dummyQuizId = quiz.objectID
 
-            for j in 0..<4 {
+            for j in 0..<5 {
                 let quizAnswer = QuizAnswer(context: managedContext)
                 quizAnswer.answerText = "Answer " + String(j)
                 quizAnswer.createDate = Date()
@@ -394,7 +410,29 @@ struct Helper {
         }
     }
 
-    static func fetchQuizData() -> [NSManagedObject]? {
+    static func getQuiz(forQuizId quizId: NSManagedObjectID) -> NSManagedObject? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let quiz = managedContext.object(with: quizId)
+
+        var cnt = quiz.mutableSetValue(forKey: "quizResult").count
+        print("cnt = \(cnt)")
+        
+        if let quiz = quiz as? Quiz {
+            if let quizResult = quiz.quizResult {
+                cnt = quizResult.count
+                print("cnt = \(cnt)")
+            }
+        }
+        
+        return quiz
+    }
+    
+    static func getAllQuizes() -> [NSManagedObject]? {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return nil
@@ -414,7 +452,7 @@ struct Helper {
             print("\(quizes)")
             return quizes
         } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+            print("Could not get all quizes. \(error), \(error.userInfo)")
             return nil
         }
     }

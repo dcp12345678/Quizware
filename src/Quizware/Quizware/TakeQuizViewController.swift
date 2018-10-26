@@ -188,7 +188,9 @@ class TakeQuizViewController: UIViewController, PickAnswerTableViewCellDelegate 
 
     func getQuestion() -> QuizQuestion? {
         if let questions = questions {
-            return questions[questionIndex]
+            if questionIndex < questions.count {
+                return questions[questionIndex]
+            }
         }
         return nil
     }
