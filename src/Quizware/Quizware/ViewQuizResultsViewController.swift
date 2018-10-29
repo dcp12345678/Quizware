@@ -73,8 +73,6 @@ class ViewQuizResultsViewController: UITableViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             cell.lblDateTaken.text = dateFormatter.string(from: quizResult.dateTaken!)
             dateFormatter.dateFormat = "h:mm a"
-            //dateFormatter.amSymbol = "AM"
-            //dateFormatter.pmSymbol = "PM"
             cell.lblTimeTaken.text = dateFormatter.string(from: quizResult.dateTaken!)
             cell.lblScore.text = String(Int(Helper.calcQuizScore(forQuizResult: quizResult)))
         }
